@@ -86,3 +86,54 @@ All acceptance criteria met:
 - **hand-gestures agent**: Build full MediaPipe hand tracking system
 - **ui-content agent**: Build proper section content components, project data, styles
 - **polish agent**: Post-processing (bloom, chromatic aberration), particle-cursor interaction, loading screen, keyboard nav, mobile fallback
+
+---
+
+## 2026-03-19 — AGENT: ui-content (Section 4)
+
+### 01:00 — Session Start
+- Read PLAN.md and DEV_LOG.md, understood Section 4 scope
+- Existing stubs from particle-engine agent: SectionOverlay.svelte, NavigationHUD.svelte, App.svelte, app.css
+
+### 01:05 — Project data + Section content components
+- Created `src/data/projects.js` — 6 placeholder projects with title, description, tech pills, links, accent color
+- Created `src/components/sections/HeroContent.svelte` — "Software Engineer" subtitle with glow, fixed-bottom scroll hint with dual-chevron bounce animation
+- Created `src/components/sections/ProjectsContent.svelte` — responsive card grid, glass-morphism cards with accent borders, tech pills, hover glow effects
+- Created `src/components/sections/AboutContent.svelte` — bio card, skills pill grid (10 skills), "career timeline coming soon" placeholder
+- Created `src/components/sections/ContactContent.svelte` — GitHub/LinkedIn/Email as glowing magenta pills with hover lift + glow
+
+### 01:10 — SectionOverlay rewrite
+- Rewrote `src/components/SectionOverlay.svelte` — uses `$derived` to compute opacity from `transitionProgress` (fades out during first half of transition)
+- Conditionally renders section components based on `currentSection`
+- Container: `pointer-events: none`, interactive children set `pointer-events: auto`
+
+### 01:12 — NavigationHUD rewrite
+- Rewrote `src/components/NavigationHUD.svelte` — section-colored dots using CSS custom property `--dot-color`
+- Colors match section palettes: purple/cyan/gold/magenta
+- Active dot glows with colored box-shadow, hover shows label text
+- Focus-visible outline for keyboard accessibility
+- Responsive: labels hidden on mobile, smaller dots
+
+### 01:15 — Global styles + App.svelte
+- Rewrote `src/app.css` — Inter font import, glass morphism CSS variables/utility class, glow utilities per section, responsive breakpoint reference
+- Updated `src/App.svelte` — z-index layering documented: Canvas(0) → SectionOverlay(1) → HandCursor(2) → NavHUD(3) → HandPrompt(4)
+- Removed duplicate global styles (now in app.css only)
+
+### 01:18 — Build verification
+- `npx vite build` — SUCCESS, builds in ~594ms
+- No errors, all imports resolve
+
+### Status: Section 4 COMPLETE
+All acceptance criteria met:
+- [x] All 4 section content components render (Hero, Projects, About, Contact)
+- [x] SectionOverlay fades in/out synced to transitionProgress
+- [x] NavigationHUD clickable with section-colored dots and hover labels
+- [x] Glass-morphism cards, glowing pills, responsive layouts
+- [x] Text readable over particles (subtle text-shadow glow, glass backgrounds)
+- [x] Responsive — mobile breakpoints on all components
+- [x] Build succeeds
+
+### Notes for other agents:
+- **hand-gestures agent**: HandPrompt.svelte should mount at z-index 4, HandCursorVisual at z-index 2 (slots noted in App.svelte comments)
+- **polish agent**: Consider adding entrance animations (staggered fade-in on section components) and scroll-triggered micro-interactions
+- **scenes agent**: ProjectsContent grid positions could eventually sync with ProjectsScene 3D card positions via camera.project() for true 3D→2D overlay alignment
