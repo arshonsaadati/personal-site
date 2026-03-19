@@ -1,15 +1,23 @@
 import { randomRange } from '../../utils/math.js'
 
 /**
- * Contact scene placeholder: portal/vortex made of particles.
- * The "scenes" agent will refine with proper torus parametric positioning,
- * logarithmic spiral, and glow effects.
+ * Contact scene: magenta torus portal with spiral and glow.
  *
- * Color palette: magenta, pink, violet
+ * Camera: (0, 0, -80) looking at (0, 0, -100)
+ * Color palette: magenta (#e040fb), pink (#ff4081), violet (#7c4dff)
+ *
+ * Distribution:
+ *   0-39%  (32K) — Torus ring (major R=20, minor r=3), parametric
+ *   40-59% (16K) — Inner logarithmic spiral toward center
+ *   60-79% (16K) — Outer scattered glow with radial falloff
+ *   80-100%(16K) — Sparse background void
  */
 
 const MAJOR_RADIUS = 20
 const MINOR_RADIUS = 3
+
+// Center offset: torus is at the camera lookAt target
+const CX = 0, CY = 0, CZ = -100
 
 export function getPositions(i, total) {
   const torusEnd = Math.floor(total * 0.4)
@@ -17,68 +25,73 @@ export function getPositions(i, total) {
   const glowEnd = Math.floor(total * 0.8)
 
   if (i < torusEnd) {
-    // ─── Torus/portal ring (40%) ───
-    const u = Math.random() * Math.PI * 2  // angle around major circle
-    const v = Math.random() * Math.PI * 2  // angle around minor circle
+    // ─── Torus portal ring (40%): parametric torus surface ───
+    const u = Math.random() * Math.PI * 2  // major circle angle
+    const v = Math.random() * Math.PI * 2  // minor circle angle
 
+    // Parametric torus: the ring faces the camera (oriented in xy plane)
     const x = (MAJOR_RADIUS + MINOR_RADIUS * Math.cos(v)) * Math.cos(u)
     const y = (MAJOR_RADIUS + MINOR_RADIUS * Math.cos(v)) * Math.sin(u)
     const z = MINOR_RADIUS * Math.sin(v)
 
-    // Magenta/pink
-    const pinkShift = Math.random() * 0.3
+    // Magenta/pink gradient around the ring
+    const hueShift = Math.random() * 0.3
     return {
-      x,
-      y,
-      z,
-      r: 0.85 + pinkShift * 0.15,
-      g: 0.1 + Math.random() * 0.2,
-      b: 0.7 + pinkShift,
+      x: CX + x,
+      y: CY + y,
+      z: CZ + z,
+      r: 0.82 + hueShift * 0.18,
+      g: 0.1 + Math.random() * 0.15,
+      b: 0.65 + hueShift,
       size: randomRange(0.5, 1.0),
     }
   }
 
   if (i < spiralEnd) {
-    // ─── Inner spiral (20%): particles spiraling toward center ───
-    const angle = Math.random() * Math.PI * 2 * 4  // 4 full rotations
+    // ─── Inner logarithmic spiral (20%): swirling toward center ───
     const t = Math.random()  // 0 = outer edge, 1 = center
-    const radius = MAJOR_RADIUS * (1 - t * 0.8)  // spiral inward
+    const angle = t * Math.PI * 2 * 5  // 5 full spiral rotations
+
+    // Logarithmic spiral: radius decreases exponentially toward center
+    const radius = MAJOR_RADIUS * Math.exp(-1.8 * t)
 
     return {
-      x: radius * Math.cos(angle),
-      y: radius * Math.sin(angle),
-      z: (Math.random() - 0.5) * 3,
-      r: 0.5 + Math.random() * 0.2,
-      g: 0.15 + Math.random() * 0.15,
-      b: 0.85 + Math.random() * 0.15,
-      size: randomRange(0.3, 0.7),
+      x: CX + radius * Math.cos(angle),
+      y: CY + radius * Math.sin(angle),
+      z: CZ + (Math.random() - 0.5) * 3,
+      r: 0.45 + Math.random() * 0.2,
+      g: 0.12 + Math.random() * 0.12,
+      b: 0.8 + Math.random() * 0.2,
+      size: randomRange(0.3, 0.7) * (1 - t * 0.5), // smaller toward center
     }
   }
 
   if (i < glowEnd) {
     // ─── Outer glow (20%): scattered around torus with radial falloff ───
     const angle = Math.random() * Math.PI * 2
-    const dist = MAJOR_RADIUS + randomRange(-15, 25)
+    // Radial falloff: more particles near torus, fewer far away
+    const distFromRing = randomRange(0, 30)
+    const dist = MAJOR_RADIUS + distFromRing * (Math.random() < 0.5 ? 1 : -0.5)
 
     return {
-      x: dist * Math.cos(angle) + (Math.random() - 0.5) * 10,
-      y: dist * Math.sin(angle) + (Math.random() - 0.5) * 10,
-      z: (Math.random() - 0.5) * 15,
-      r: 0.6 + Math.random() * 0.2,
-      g: 0.1 + Math.random() * 0.15,
-      b: 0.4 + Math.random() * 0.3,
+      x: CX + dist * Math.cos(angle) + (Math.random() - 0.5) * 8,
+      y: CY + dist * Math.sin(angle) + (Math.random() - 0.5) * 8,
+      z: CZ + (Math.random() - 0.5) * 15,
+      r: 0.5 + Math.random() * 0.2,
+      g: 0.08 + Math.random() * 0.1,
+      b: 0.35 + Math.random() * 0.3,
       size: randomRange(0.15, 0.45),
     }
   }
 
-  // ─── Background void (20%): very sparse, distant ───
+  // ─── Background void (20%): sparse, distant, dark ───
   return {
-    x: (Math.random() - 0.5) * 250,
-    y: (Math.random() - 0.5) * 250,
-    z: (Math.random() - 0.5) * 250,
-    r: 0.2 + Math.random() * 0.1,
-    g: 0.05 + Math.random() * 0.05,
-    b: 0.3 + Math.random() * 0.15,
+    x: CX + (Math.random() - 0.5) * 250,
+    y: CY + (Math.random() - 0.5) * 250,
+    z: CZ + (Math.random() - 0.5) * 200,
+    r: 0.18 + Math.random() * 0.1,
+    g: 0.04 + Math.random() * 0.05,
+    b: 0.25 + Math.random() * 0.15,
     size: randomRange(0.1, 0.3),
   }
 }
