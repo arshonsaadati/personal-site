@@ -2,12 +2,16 @@
   import Canvas from './components/Canvas.svelte'
   import SectionOverlay from './components/SectionOverlay.svelte'
   import NavigationHUD from './components/NavigationHUD.svelte'
+  import HandPrompt from './components/HandPrompt.svelte'
+  import HandCursorVisual from './components/HandCursorVisual.svelte'
 </script>
 
 <main>
   <Canvas />
   <SectionOverlay />
+  <HandCursorVisual />
   <NavigationHUD />
+  <HandPrompt />
 </main>
 
 <style>
