@@ -1,38 +1,44 @@
 <script>
-  import { navigationState } from '../lib/stores/navigation.svelte.js'
+  /**
+   * SectionOverlay — renders section-specific HTML content on top of the 3D canvas.
+   * Fades out during transitions based on transitionProgress.
+   * Container is pointer-events:none; interactive children set auto.
+   */
+  import { navigationState } from '../lib/stores/navigation.svelte.js';
+  import HeroContent from './sections/HeroContent.svelte';
+  import ProjectsContent from './sections/ProjectsContent.svelte';
+  import AboutContent from './sections/AboutContent.svelte';
+  import ContactContent from './sections/ContactContent.svelte';
 
-  // Stub: the ui-content agent will build out section-specific content components
-  const sectionNames = ['Hero', 'Projects', 'About', 'Contact']
-  const sectionSubtitles = [
-    'Software Engineer',
-    'Things I\'ve built',
-    'Skills & Experience',
-    'Get in touch',
-  ]
+  // Fade out during first half of transition, fade in during second half
+  const opacity = $derived(
+    navigationState.isTransitioning
+      ? Math.max(0, 1 - navigationState.transitionProgress * 2.5)
+      : 1
+  );
+
+  const currentSection = $derived(navigationState.currentSection);
 </script>
 
 <div
   class="section-overlay"
-  class:transitioning={navigationState.isTransitioning}
+  style="opacity: {opacity}"
 >
-  <div class="section-content">
-    {#if navigationState.currentSection === 0 && !navigationState.isTransitioning}
-      <div class="hero-content" >
-        <p class="subtitle">{sectionSubtitles[0]}</p>
-        <div class="scroll-hint">
-          <span>Scroll to explore</span>
-          <div class="arrow-down"></div>
-        </div>
-      </div>
-    {/if}
-
-    {#if navigationState.currentSection > 0 && !navigationState.isTransitioning}
-      <div class="generic-section" >
-        <h2>{sectionNames[navigationState.currentSection]}</h2>
-        <p class="section-subtitle">{sectionSubtitles[navigationState.currentSection]}</p>
-      </div>
-    {/if}
-  </div>
+  {#if currentSection === 0}
+    <HeroContent />
+  {:else if currentSection === 1}
+    <div class="scrollable-section">
+      <ProjectsContent />
+    </div>
+  {:else if currentSection === 2}
+    <div class="scrollable-section">
+      <AboutContent />
+    </div>
+  {:else if currentSection === 3}
+    <div class="scrollable-section center-content">
+      <ContactContent />
+    </div>
+  {/if}
 </div>
 
 <style>
@@ -41,77 +47,28 @@
     inset: 0;
     z-index: 1;
     pointer-events: none;
+    transition: opacity 0.15s ease-out;
+  }
+
+  .scrollable-section {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    pointer-events: auto;
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollable-section::-webkit-scrollbar {
+    display: none;
+  }
+
+  .center-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.5s ease;
-  }
-
-  .section-overlay.transitioning {
-    opacity: 0;
-  }
-
-  .section-content {
-    text-align: center;
-    color: white;
-  }
-
-  .hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .subtitle {
-    font-size: 1.2rem;
-    font-weight: 300;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
-  }
-
-  .scroll-hint {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 0.8rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .arrow-down {
-    width: 12px;
-    height: 12px;
-    border-right: 2px solid rgba(255, 255, 255, 0.3);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
-    transform: rotate(45deg);
-    animation: bounce 2s infinite;
-  }
-
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% { transform: rotate(45deg) translateY(0); }
-    40% { transform: rotate(45deg) translateY(6px); }
-    60% { transform: rotate(45deg) translateY(3px); }
-  }
-
-  .generic-section h2 {
-    font-size: 2.5rem;
-    font-weight: 200;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin: 0 0 12px 0;
-  }
-
-  .section-subtitle {
-    font-size: 1rem;
-    font-weight: 300;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 2px;
-    margin: 0;
   }
 </style>

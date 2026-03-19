@@ -1,4 +1,5 @@
 /* Portfolio Site — Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap');
 
 :root {
   /* Section color palettes */
@@ -19,6 +20,11 @@
 
   /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Glass morphism */
+  --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 16px;
 
   font-family: var(--font-sans);
   color-scheme: dark;
@@ -44,4 +50,74 @@ html, body {
 ::selection {
   background: rgba(106, 13, 173, 0.4);
   color: white;
+}
+
+/* Scrollbar hide utility */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glass morphism utility */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+/* Link reset */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Section glow utilities */
+.glow-hero {
+  text-shadow: 0 0 20px rgba(106, 13, 173, 0.5), 0 0 60px rgba(0, 229, 255, 0.15);
+}
+
+.glow-projects {
+  text-shadow: 0 0 20px rgba(0, 229, 255, 0.4), 0 0 60px rgba(41, 121, 255, 0.15);
+}
+
+.glow-about {
+  text-shadow: 0 0 20px rgba(255, 213, 79, 0.4), 0 0 60px rgba(255, 171, 0, 0.15);
+}
+
+.glow-contact {
+  text-shadow: 0 0 20px rgba(224, 64, 251, 0.4), 0 0 60px rgba(255, 64, 129, 0.15);
+}
+
+/* Box glow utilities */
+.box-glow-hero {
+  box-shadow: 0 0 20px rgba(106, 13, 173, 0.2), 0 0 60px rgba(0, 229, 255, 0.08);
+}
+
+.box-glow-projects {
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.2), 0 0 60px rgba(41, 121, 255, 0.08);
+}
+
+.box-glow-about {
+  box-shadow: 0 0 20px rgba(255, 213, 79, 0.2), 0 0 60px rgba(255, 171, 0, 0.08);
+}
+
+.box-glow-contact {
+  box-shadow: 0 0 20px rgba(224, 64, 251, 0.2), 0 0 60px rgba(255, 64, 129, 0.08);
+}
+
+/* Responsive font scale */
+@media (max-width: 640px) {
+  :root {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
 }

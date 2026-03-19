@@ -86,3 +86,44 @@ All acceptance criteria met:
 - **hand-gestures agent**: Build full MediaPipe hand tracking system
 - **ui-content agent**: Build proper section content components, project data, styles
 - **polish agent**: Post-processing (bloom, chromatic aberration), particle-cursor interaction, loading screen, keyboard nav, mobile fallback
+
+---
+
+## 2026-03-19 — AGENT: scenes (Section 2) — COMPLETE
+
+- Created `src/lib/utils/textSampler.js` — offscreen canvas text-to-particle sampler with Fisher-Yates sampling and caching
+- Rewrote all 4 scene distribution functions with complex multi-layer distributions:
+  - **HeroScene.js**: 32K stars (spherical shell R=80-200 with highlight stars), 16K nebula (5 weighted gaussian clusters), 16K text "ARSHON SAADATI" (via textSampler), 16K ambient floaters (3 sub-distributions)
+  - **ProjectsScene.js**: 48K card particles (6 cards, 2x3 grid, edge-biased outlines), 20K starfield, 12K connecting arc streams between 7 card pairs
+  - **AboutScene.js**: 24K skill node clusters (9 nodes, cbrt spherical), 16K connection lines (12 edges, endpoint bias), 24K background stars (3 layers), 16K tilted orbital rings. All centered at camera lookAt (0,5,-30)
+  - **ContactScene.js**: 32K torus (R=20, r=3, organic variance, color cycling), 16K logarithmic spiral (5 rotations, funnel z-spread), 16K outer glow (gaussian falloff), 16K background void (3 sub-distributions). All centered at (0,0,-100)
+- Build verified successfully
+
+---
+
+## 2026-03-19 — AGENT: hand-gestures (Section 3) — COMPLETE
+
+- Installed @mediapipe/tasks-vision
+- Created `src/lib/stores/hand.svelte.js` — Svelte 5 runes store (handEnabled, handDetected, cursorPosition, currentGesture, isLoading, error)
+- Created `src/lib/hand/HandTracker.js` — MediaPipe HandLandmarker wrapper (GPU delegate, 0.5 confidence, webcam 640x480)
+- Created `src/lib/hand/GestureRecognizer.js` — 6 gestures (open_palm, fist, point, pinch, swipe_left/right), 3-frame stability, edge-triggered fist, 500ms swipe cooldown
+- Created `src/lib/hand/HandCursor.js` — palm center to screen coords, mirrored x, EMA smoothing (0.3), edge margin remap
+- Created `src/components/HandPrompt.svelte` — glass-morphism toggle button, status dot (gray/amber/green/red), detection loop in rAF, gesture→navigation mapping
+- Created `src/components/HandCursorVisual.svelte` — 3-layer cursor (glow+ring+dot), gesture color-coded, CSS transitions
+- Updated App.svelte with HandPrompt + HandCursorVisual
+- Build verified successfully
+
+---
+
+## 2026-03-19 — AGENT: ui-content (Section 4) — COMPLETE
+
+- Created `src/data/projects.js` — 6 real projects from resume (Skyryse, FCC Simulator, Yolked AI, Amazon SCOT, Build-a-Fair, Portfolio)
+- Created `src/components/sections/HeroContent.svelte` — subtitle with glow, animated bouncing chevron scroll hint
+- Created `src/components/sections/ProjectsContent.svelte` — responsive glass-morphism card grid, per-card accent colors, tech stack pills
+- Created `src/components/sections/AboutContent.svelte` — bio card, 23 skills in 3 categories, 4-entry career timeline with rail/dot/line pattern
+- Created `src/components/sections/ContactContent.svelte` — GitHub/LinkedIn/Email glowing pills with inline SVG icons
+- Rewrote SectionOverlay.svelte — $derived opacity, conditional rendering, scrollable wrappers
+- Rewrote NavigationHUD.svelte — section-colored dots (purple/cyan/gold/magenta), color-mix() glow, responsive
+- Rewrote app.css — Inter font import, glass morphism variables, glow utilities, scrollbar hide
+- Updated App.svelte — overflow: hidden
+- Build verified successfully
