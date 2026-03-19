@@ -1,6 +1,25 @@
 import * as THREE from 'three'
 
-const PARTICLE_COUNT = 80000
+// Configurable particle count — reduced on mobile for performance
+export let PARTICLE_COUNT = 80000
+
+/**
+ * Detect mobile device.
+ */
+export function isMobileDevice() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+}
+
+/**
+ * Set particle count (call before creating ParticleSystem).
+ * Mobile: 40000, Desktop: 80000.
+ */
+export function configureForDevice() {
+  if (isMobileDevice()) {
+    PARTICLE_COUNT = 40000
+  }
+  return PARTICLE_COUNT
+}
 
 // ──────────────────────────────────────────────
 // Vertex Shader
@@ -16,6 +35,7 @@ const vertexShader = /* glsl */ `
   uniform float uTransitionProgress;
   uniform float uTime;
   uniform float uPixelRatio;
+  uniform vec3 uCursorPosition;
 
   varying vec3 vColor;
   varying float vAlpha;
@@ -48,6 +68,15 @@ const vertexShader = /* glsl */ `
     ) * chaosFactor;
 
     pos += chaosOffset;
+
+    // Cursor repulsion: particles push away from cursor position
+    // Creates a "parting" effect when hand cursor is near particles
+    float cursorDist = distance(pos, uCursorPosition);
+    if (cursorDist < 8.0) {
+      float repulsion = 1.0 - smoothstep(0.0, 8.0, cursorDist);
+      vec3 pushDir = normalize(pos - uCursorPosition);
+      pos += pushDir * repulsion * 3.0;
+    }
 
     // Interpolate color and size
     vColor = mix(color, targetColor, particleProgress);
@@ -170,6 +199,7 @@ export class ParticleSystem {
         uTransitionProgress: { value: 1.0 }, // Start at 1.0 (fully arrived)
         uTime: { value: 0.0 },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uCursorPosition: { value: new THREE.Vector3(0, 0, 9999) }, // far away by default
       },
       transparent: true,
       blending: THREE.AdditiveBlending,
@@ -242,6 +272,21 @@ export class ParticleSystem {
     this.material.uniforms.uTime.value = elapsed
   }
 
+  /**
+   * Update cursor position for particle repulsion effect.
+   * @param {THREE.Vector3} position - cursor position in world space
+   */
+  setCursorPosition(position) {
+    this.material.uniforms.uCursorPosition.value.copy(position)
+  }
+
+  /**
+   * Reset cursor to far away (disables repulsion).
+   */
+  resetCursorPosition() {
+    this.material.uniforms.uCursorPosition.value.set(0, 0, 9999)
+  }
+
   get transitionProgress() {
     return this.material.uniforms.uTransitionProgress.value
   }
@@ -257,4 +302,4 @@ export class ParticleSystem {
   }
 }
 
-export { PARTICLE_COUNT }
+// PARTICLE_COUNT is already exported at top via `export let`

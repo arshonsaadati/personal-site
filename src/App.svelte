@@ -4,18 +4,21 @@
   import NavigationHUD from './components/NavigationHUD.svelte'
   import HandPrompt from './components/HandPrompt.svelte'
   import HandCursorVisual from './components/HandCursorVisual.svelte'
+  import LoadingScreen from './components/LoadingScreen.svelte'
+
+  let sceneReady = $state(false)
+
+  function handleReady() {
+    sceneReady = true
+  }
 </script>
 
 <main>
-  <!-- z-index 0: Three.js particle canvas -->
-  <Canvas />
-  <!-- z-index 1: HTML section content overlay -->
+  <LoadingScreen ready={sceneReady} />
+  <Canvas onReady={handleReady} />
   <SectionOverlay />
-  <!-- z-index 2: Hand cursor visual -->
   <HandCursorVisual />
-  <!-- z-index 3: Navigation dots -->
   <NavigationHUD />
-  <!-- z-index 4: Hand prompt toggle -->
   <HandPrompt />
 </main>
 
@@ -39,6 +42,5 @@
     width: 100%;
     height: 100vh;
     position: relative;
-    overflow: hidden;
   }
 </style>

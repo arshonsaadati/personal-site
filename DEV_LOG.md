@@ -127,3 +127,26 @@ All acceptance criteria met:
 - Rewrote app.css — Inter font import, glass morphism variables, glow utilities, scrollbar hide
 - Updated App.svelte — overflow: hidden
 - Build verified successfully
+
+---
+
+## 2026-03-19 — AGENT: polish (Section 5) — COMPLETE
+
+- Created `src/lib/three/PostProcessing.js` — EffectComposer with RenderPass + UnrealBloomPass (1.5/0.4/0.2) + custom vignette ShaderPass
+- Created `src/components/LoadingScreen.svelte` — dark overlay with 3 pulsing dots, fades out on `ready` prop
+- Modified `SceneManager.js` — integrated PostProcessing, render through composer, mobile pixel ratio cap (1.5), skip antialias on mobile
+- Modified `ParticleSystem.js` — added `uCursorPosition` uniform + cursor repulsion in vertex shader (8.0 unit radius, 3.0 unit displacement), `setCursorPosition()`/`resetCursorPosition()` methods, `configureForDevice()` for mobile (40K particles)
+- Modified `Canvas.svelte` — keyboard nav (arrows/PageUp/Down/1-4/Escape), touch swipe (vertical > 50px), hand cursor→world position raycasting for particle repulsion, `onReady` callback, unified `canNavigate()` debounce
+- Modified `App.svelte` — added LoadingScreen with `sceneReady` state
+- Modified `index.html` — title "Arshon Saadati — Software Engineer", meta description, OG tags, theme-color
+- Build verified: 160 modules, 18.91KB CSS, 744KB JS
+
+---
+
+## 2026-03-19 — Integration & Merge
+
+- Merged all 4 agent worktrees (scenes, hand-gestures, ui-content, polish) into main
+- Resolved App.svelte merge (combined hand tracking + loading screen + overflow:hidden)
+- Installed @mediapipe/tasks-vision dependency
+- Final build: 160 modules, SUCCESS
+- All 5 sections complete
