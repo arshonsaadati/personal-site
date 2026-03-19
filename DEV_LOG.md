@@ -275,51 +275,76 @@ All acceptance criteria met:
 - **polish agent**: Consider adding entrance animations (staggered fade-in on section components) and scroll-triggered micro-interactions
 - **scenes agent**: ProjectsContent grid positions could eventually sync with ProjectsScene 3D card positions via camera.project() for true 3D→2D overlay alignment
 
-## 2026-03-19 — AGENT: ui-content (Section 4)
+---
 
-### 01:00 — Session Start
-- Read PLAN.md and DEV_LOG.md, understood Section 4 scope
-- Existing stubs from particle-engine agent: SectionOverlay.svelte, NavigationHUD.svelte, App.svelte, app.css
+## 2026-03-19 — AGENT: polish (Section 5)
 
-### 01:05 — Project data + Section content components
-- Created `src/data/projects.js` — 6 placeholder projects with title, description, tech pills, links, accent color
-- Created `src/components/sections/HeroContent.svelte` — "Software Engineer" subtitle with glow, fixed-bottom scroll hint with dual-chevron bounce animation
-- Created `src/components/sections/ProjectsContent.svelte` — responsive card grid, glass-morphism cards with accent borders, tech pills, hover glow effects
-- Created `src/components/sections/AboutContent.svelte` — bio card, skills pill grid (10 skills), "career timeline coming soon" placeholder
-- Created `src/components/sections/ContactContent.svelte` — GitHub/LinkedIn/Email as glowing magenta pills with hover lift + glow
+### 02:00 — Session Start
+- Read PLAN.md and DEV_LOG.md, reviewed all existing code from Sections 1-4
+- Beginning Section 5: Post-Processing & Polish
 
-### 01:10 — SectionOverlay rewrite
-- Rewrote `src/components/SectionOverlay.svelte` — uses `$derived` to compute opacity from `transitionProgress` (fades out during first half of transition)
-- Conditionally renders section components based on `currentSection`
-- Container: `pointer-events: none`, interactive children set `pointer-events: auto`
+### 02:05 — PostProcessing.js
+- Created `src/lib/three/PostProcessing.js` — EffectComposer pipeline:
+  - RenderPass → UnrealBloomPass (strength 1.5, radius 0.4, threshold 0.2) → ChromaticAberration → Vignette → OutputPass
+  - Custom GLSL shaders for chromatic aberration (RGB channel offset) and vignette (radial darkening)
+  - setSize/dispose for proper lifecycle management
+- Updated `SceneManager.js` — added `setComposer()` method so render loop uses composer.render() instead of renderer.render(), resize handler updates composer size
 
-### 01:12 — NavigationHUD rewrite
-- Rewrote `src/components/NavigationHUD.svelte` — section-colored dots using CSS custom property `--dot-color`
-- Colors match section palettes: purple/cyan/gold/magenta
-- Active dot glows with colored box-shadow, hover shows label text
-- Focus-visible outline for keyboard accessibility
-- Responsive: labels hidden on mobile, smaller dots
+### 02:10 — Particle-cursor interaction
+- Added `uCursorPosition` uniform (vec3) to ParticleSystem vertex shader
+- Repulsion logic: particles within 8-unit radius are pushed away with quadratic falloff, max 3-unit displacement
+- Added `setCursorPosition(x, y, z)` method to ParticleSystem
+- Canvas.svelte raycasts mouse position onto z=0 plane and feeds world-space coords to shader
 
-### 01:15 — Global styles + App.svelte
-- Rewrote `src/app.css` — Inter font import, glass morphism CSS variables/utility class, glow utilities per section, responsive breakpoint reference
-- Updated `src/App.svelte` — z-index layering documented: Canvas(0) → SectionOverlay(1) → HandCursor(2) → NavHUD(3) → HandPrompt(4)
-- Removed duplicate global styles (now in app.css only)
+### 02:12 — Loading screen
+- Created `src/components/LoadingScreen.svelte` — full-screen dark overlay with spinning ring
+- Fades out over 800ms when `ready` prop becomes true
+- z-index 9999, disappears from DOM after fade completes
 
-### 01:18 — Build verification
-- `npx vite build` — SUCCESS, builds in ~594ms
-- No errors, all imports resolve
+### 02:14 — Keyboard navigation
+- Created `src/lib/utils/keyboard.js` — Arrow keys / PageUp/PageDown navigate next/prev, 1-4 jump directly, Escape goes to Hero
+- `bindKeyboard()` / `unbindKeyboard()` for clean lifecycle
 
-### Status: Section 4 COMPLETE
+### 02:16 — Mobile fallback
+- Created `src/lib/utils/mobile.js` — UA + viewport + touch detection
+- Added `setParticleCount()` export to ParticleSystem — mobile sets 30K particles before construction
+- Touch swipe navigation in Canvas.svelte — 50px threshold, supports vertical and horizontal swipes
+- HandPrompt hidden on mobile in App.svelte (hand tracking requires desktop webcam)
+
+### 02:18 — SEO + performance
+- Rewrote `index.html` — proper title, meta description, author, theme-color, Open Graph tags, Twitter Card tags, apple-touch-icon link
+- Pixel ratio already capped at 2.0 in SceneManager (from Section 1)
+- PostProcessing pipeline is lightweight (bloom + 2 fullscreen passes)
+
+### 02:20 — Integration + wiring
+- Rewrote `Canvas.svelte` — imports and initializes PostProcessing, keyboard nav, mobile detection, touch events, mouse→cursor raycasting
+- Updated `App.svelte` — LoadingScreen component with ready signal, mobile-conditional HandPrompt
+
+### 02:22 — Build verification
+- `npx vite build` — SUCCESS, builds in ~700ms
+- All imports resolve, no errors
+- Chunk size warning expected (Three.js + MediaPipe are large)
+
+### Status: Section 5 COMPLETE
 All acceptance criteria met:
-- [x] All 4 section content components render (Hero, Projects, About, Contact)
-- [x] SectionOverlay fades in/out synced to transitionProgress
-- [x] NavigationHUD clickable with section-colored dots and hover labels
-- [x] Glass-morphism cards, glowing pills, responsive layouts
-- [x] Text readable over particles (subtle text-shadow glow, glass backgrounds)
-- [x] Responsive — mobile breakpoints on all components
+- [x] Bloom + chromatic aberration + vignette post-processing pipeline
+- [x] Particles repel from mouse cursor (raycasted to world space)
+- [x] Loading screen with fade-out on ready
+- [x] Keyboard navigation (arrows, 1-4, Escape)
+- [x] Mobile: 30K particles, touch swipe, hand tracking disabled
+- [x] Pixel ratio capped at 2.0
+- [x] SEO meta tags, OG tags, favicon
 - [x] Build succeeds
 
-### Notes for other agents:
-- **hand-gestures agent**: HandPrompt.svelte should mount at z-index 4, HandCursorVisual at z-index 2 (slots noted in App.svelte comments)
-- **polish agent**: Consider adding entrance animations (staggered fade-in on section components) and scroll-triggered micro-interactions
-- **scenes agent**: ProjectsContent grid positions could eventually sync with ProjectsScene 3D card positions via camera.project() for true 3D→2D overlay alignment
+### Files created:
+- `src/lib/three/PostProcessing.js` — post-processing pipeline
+- `src/components/LoadingScreen.svelte` — loading screen
+- `src/lib/utils/keyboard.js` — keyboard navigation
+- `src/lib/utils/mobile.js` — mobile detection
+
+### Files modified:
+- `src/lib/three/ParticleSystem.js` — cursor repulsion uniform + shader logic, setParticleCount
+- `src/lib/three/SceneManager.js` — composer support in render loop + resize
+- `src/components/Canvas.svelte` — full rewrite with all integrations
+- `src/App.svelte` — loading screen + mobile conditional
+- `index.html` — SEO meta tags

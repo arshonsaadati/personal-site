@@ -1,6 +1,9 @@
 import * as THREE from 'three'
 
-const PARTICLE_COUNT = 80000
+let PARTICLE_COUNT = 80000
+
+/** Allow mobile to reduce particle count before construction */
+export function setParticleCount(n) { PARTICLE_COUNT = n }
 
 // ──────────────────────────────────────────────
 // Vertex Shader
@@ -16,6 +19,7 @@ const vertexShader = /* glsl */ `
   uniform float uTransitionProgress;
   uniform float uTime;
   uniform float uPixelRatio;
+  uniform vec3 uCursorPosition;
 
   varying vec3 vColor;
   varying float vAlpha;
@@ -48,6 +52,16 @@ const vertexShader = /* glsl */ `
     ) * chaosFactor;
 
     pos += chaosOffset;
+
+    // Cursor repulsion — push particles away from cursor within a radius
+    vec3 toCursor = pos - uCursorPosition;
+    float cursorDist = length(toCursor);
+    float repelRadius = 8.0;
+    if (cursorDist < repelRadius && cursorDist > 0.001) {
+      float repelStrength = (1.0 - cursorDist / repelRadius);
+      repelStrength *= repelStrength; // Quadratic falloff
+      pos += normalize(toCursor) * repelStrength * 3.0;
+    }
 
     // Interpolate color and size
     vColor = mix(color, targetColor, particleProgress);
@@ -170,6 +184,7 @@ export class ParticleSystem {
         uTransitionProgress: { value: 1.0 }, // Start at 1.0 (fully arrived)
         uTime: { value: 0.0 },
         uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        uCursorPosition: { value: new THREE.Vector3(9999, 9999, 9999) },
       },
       transparent: true,
       blending: THREE.AdditiveBlending,
@@ -240,6 +255,11 @@ export class ParticleSystem {
 
   update(deltaTime, elapsed) {
     this.material.uniforms.uTime.value = elapsed
+  }
+
+  /** Update cursor world-position for particle repulsion */
+  setCursorPosition(x, y, z) {
+    this.material.uniforms.uCursorPosition.value.set(x, y, z)
   }
 
   get transitionProgress() {

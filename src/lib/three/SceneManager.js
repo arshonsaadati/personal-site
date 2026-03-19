@@ -50,6 +50,10 @@ export class SceneManager {
 
     this.renderer.setSize(width, height)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+    if (this._composer) {
+      this._composer.setSize(width, height)
+    }
   }
 
   _animate() {
@@ -62,7 +66,17 @@ export class SceneManager {
       this._onUpdate(delta, elapsed)
     }
 
-    this.renderer.render(this.scene, this.camera)
+    // If a post-processing composer is set, use it; otherwise fall back to direct render
+    if (this._composer) {
+      this._composer.render()
+    } else {
+      this.renderer.render(this.scene, this.camera)
+    }
+  }
+
+  /** Set an EffectComposer to replace direct renderer.render() */
+  setComposer(composer) {
+    this._composer = composer
   }
 
   dispose() {
