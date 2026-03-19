@@ -33,6 +33,23 @@ export class EyeTracker {
     webgazer.params.showFaceOverlay = false
     webgazer.params.showFaceFeedbackBox = false
 
+    // Override facemesh to use 'tfjs' runtime instead of 'mediapipe'
+    // The mediapipe runtime requires @mediapipe/face_mesh which isn't bundled.
+    // The tfjs runtime uses TensorFlow.js directly (already included).
+    webgazer.params.faceMeshRuntime = 'tfjs'
+
+    // Patch the TFFaceMesh init to use tfjs runtime
+    const origTracker = webgazer.tracker.TFFaceMesh
+    const origInit = origTracker.prototype.init
+    origTracker.prototype.init = async function() {
+      if (this.detector) return this.detector
+      const faceLandmarksDetection = await import('@tensorflow-models/face-landmarks-detection')
+      const detectorConfig = { runtime: 'tfjs' }
+      this.model = faceLandmarksDetection.SupportedModels.MediaPipeFaceMesh
+      this.detector = await faceLandmarksDetection.createDetector(this.model, detectorConfig)
+      return this.detector
+    }
+
     // Set regression model (ridge is default and most stable)
     webgazer.setRegression('ridge')
 
