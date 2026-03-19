@@ -113,9 +113,9 @@
   }
 
   h1 {
-    font-size: 4rem;
+    font-size: clamp(1.8rem, 5vw, 4rem);
     font-weight: 200;
-    letter-spacing: 12px;
+    letter-spacing: clamp(4px, 1.5vw, 12px);
     margin: 0;
     text-transform: uppercase;
     background: linear-gradient(to right, #c0c0ff, #ffffff, #c0c0ff);
