@@ -5,6 +5,7 @@
   import HandPrompt from './components/HandPrompt.svelte'
   import HandCursorVisual from './components/HandCursorVisual.svelte'
   import LoadingScreen from './components/LoadingScreen.svelte'
+  import EyeTrackingPrompt from './components/EyeTrackingPrompt.svelte'
 
   let sceneReady = $state(false)
 
@@ -20,6 +21,7 @@
   <HandCursorVisual />
   <NavigationHUD />
   <HandPrompt />
+  <EyeTrackingPrompt />
 </main>
 
 <style>

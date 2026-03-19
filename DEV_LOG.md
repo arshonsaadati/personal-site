@@ -150,3 +150,33 @@ All acceptance criteria met:
 - Installed @mediapipe/tasks-vision dependency
 - Final build: 160 modules, SUCCESS
 - All 5 sections complete
+
+---
+
+## 2026-03-19 — AGENT: particle-engine — Eye Tracking (WebGazer.js)
+
+### 02:30 — WebGazer.js integration
+- Installed `webgazer` npm package (pulls in TensorFlow.js + face-landmarks-detection)
+- Created `src/lib/stores/eye.svelte.js` — Svelte 5 runes store (enabled, gazePosition, isCalibrating, isLoading, error, confidence)
+- Created `src/lib/eye/EyeTracker.js` — wraps WebGazer with:
+  - Dynamic import (code-split the heavy TF.js bundle)
+  - Hides WebGazer's default UI elements (video preview, face overlay, gaze dot)
+  - EMA smoothing (factor 0.3) on gaze predictions
+  - Bounds checking to discard obviously bad predictions
+  - `recordCalibrationPoint(x, y)` for explicit calibration
+  - `pause()` / `resume()` for CPU management
+- Created `src/components/EyeTrackingPrompt.svelte` — full UI:
+  - Toggle button (glass-morphism, positioned next to hand tracking button)
+  - 9-point calibration grid overlay (look at dot, click 3 times each)
+  - Skip calibration option
+  - Gaze cursor visual: cyan ring + dot with breathing animation
+  - Status dot: gray/amber/cyan/yellow for disabled/loading/active/calibrating
+- Added to App.svelte
+- Build verified: 1430 modules (WebGazer brings TF.js), 2 chunks
+- FaceMesh import warning is a known WebGazer issue, does not affect runtime
+
+### Notes:
+- WebGazer is CPU-heavy (~19%). May need to pause when not in use.
+- Accuracy depends on calibration + lighting. User needs to test.
+- Eye tracking and hand tracking can run simultaneously (separate webcam consumers handled by browser)
+- The gaze cursor currently just shows where you're looking. Next step: snap-to-nearest-interactive based on gaze position.
