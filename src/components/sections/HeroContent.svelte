@@ -13,10 +13,10 @@
     <span>Scroll to explore</span>
     <div class="chevrons">
       <svg class="chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <svg class="chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </div>
   </div>
@@ -53,7 +53,7 @@
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.75rem;
     font-weight: 400;
     letter-spacing: 3px;
@@ -71,7 +71,7 @@
   }
 
   .chevron {
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.6);
     animation: chevronBounce 2s ease-in-out infinite;
   }
 
@@ -84,7 +84,7 @@
   @keyframes chevronBounce {
     0%, 100% {
       transform: translateY(0);
-      opacity: 0.4;
+      opacity: 0.7;
     }
     50% {
       transform: translateY(6px);

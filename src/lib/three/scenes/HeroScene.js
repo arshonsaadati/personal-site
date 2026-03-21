@@ -27,11 +27,11 @@ function ensureTextSampled() {
 
 // Nebula cluster centers — multiple overlapping clouds for organic shape
 const NEBULA_CLUSTERS = [
-  { x: 0, y: 0, z: 0, sigma: 12, weight: 0.35 },
-  { x: -10, y: 5, z: -3, sigma: 8, weight: 0.2 },
-  { x: 8, y: -4, z: 5, sigma: 9, weight: 0.2 },
-  { x: 3, y: 8, z: -6, sigma: 7, weight: 0.15 },
-  { x: -5, y: -7, z: 4, sigma: 6, weight: 0.1 },
+  { x: 0, y: 0, z: 0, sigma: 9, weight: 0.35 },
+  { x: -10, y: 5, z: -3, sigma: 6, weight: 0.2 },
+  { x: 8, y: -4, z: 5, sigma: 7, weight: 0.2 },
+  { x: 3, y: 8, z: -6, sigma: 5, weight: 0.15 },
+  { x: -5, y: -7, z: 4, sigma: 4, weight: 0.1 },
 ]
 
 // Pre-compute cumulative weights for cluster selection
@@ -72,7 +72,7 @@ export function getPositions(i, total) {
     // Spherical shell with bias toward outer edge for depth
     const radius = 80 + Math.pow(Math.random(), 0.7) * 120
     const theta = Math.random() * Math.PI * 2
-    const phi = Math.acos(2 * Math.random() - 1)
+    const phi = Math.acos(1 - 2 * (i + 0.5) / starsEnd) // sunflower uniform distribution
 
     const x = radius * Math.sin(phi) * Math.cos(theta)
     const y = radius * Math.sin(phi) * Math.sin(theta)
@@ -157,11 +157,11 @@ export function getPositions(i, total) {
     return {
       x: pos.x,
       y: pos.y,
-      z: zJitter,
-      r: brightness - cyanAmount * 0.15,
-      g: brightness + cyanAmount * 0.05,
-      b: Math.min(1, brightness + cyanAmount * 0.2),
-      size: randomRange(0.7, 1.2),
+      z: 15 + zJitter,
+      r: Math.min(1, brightness - cyanAmount * 0.1),
+      g: Math.min(1, brightness + cyanAmount * 0.05),
+      b: Math.min(1, brightness + cyanAmount * 0.3),
+      size: randomRange(1.2, 1.8),
     }
   }
 

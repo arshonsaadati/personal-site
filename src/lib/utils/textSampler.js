@@ -94,7 +94,7 @@ export function sampleTextPositions(text, fontSize = 120, maxSamples = 16000) {
   }
 
   // Normalize: center at origin, scale so text spans ~60 world units wide
-  const targetWidth = 60
+  const targetWidth = 80
   const scale = targetWidth / w
   const halfW = w / 2
   const halfH = h / 2

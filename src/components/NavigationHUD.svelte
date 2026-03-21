@@ -69,8 +69,8 @@
   }
 
   .dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: color-mix(in srgb, var(--dot-color) 35%, transparent);
     border: 1.5px solid color-mix(in srgb, var(--dot-color) 40%, transparent);
@@ -94,7 +94,8 @@
   .nav-dot.active .dot {
     background: var(--dot-color);
     border-color: var(--dot-color);
-    transform: scale(1.5);
+    transform: scale(1.33);
+    animation: activePulse 2s ease-in-out infinite;
     box-shadow:
       0 0 12px color-mix(in srgb, var(--dot-color) 50%, transparent),
       0 0 24px color-mix(in srgb, var(--dot-color) 25%, transparent);
@@ -117,6 +118,11 @@
 
   .nav-dot.active .label {
     color: color-mix(in srgb, var(--dot-color) 50%, white);
+  }
+
+  @keyframes activePulse {
+    0%, 100% { box-shadow: 0 0 12px color-mix(in srgb, var(--dot-color) 50%, transparent), 0 0 24px color-mix(in srgb, var(--dot-color) 25%, transparent); }
+    50% { box-shadow: 0 0 18px color-mix(in srgb, var(--dot-color) 75%, transparent), 0 0 36px color-mix(in srgb, var(--dot-color) 40%, transparent); }
   }
 
   @keyframes dotPulse {
