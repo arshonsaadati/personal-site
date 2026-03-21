@@ -22,10 +22,12 @@
 </script>
 
 <div class="contact-content">
+  <div class="content-backdrop">
   <header class="section-header">
     <h2 class="section-title">Get in Touch</h2>
     <p class="section-subtitle">Let's build something together</p>
   </header>
+  </div>
 
   <div class="contact-links">
     {#each links as link}
@@ -67,6 +69,17 @@
     flex-direction: column;
     align-items: center;
     gap: 48px;
+    position: relative;
+    z-index: 20;
+  }
+
+  .content-backdrop {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 2rem 2.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(224, 64, 251, 0.08);
   }
 
   .section-header {

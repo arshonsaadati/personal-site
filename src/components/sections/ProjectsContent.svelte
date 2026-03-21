@@ -98,9 +98,9 @@
     padding: 28px;
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.35s ease, border-color 0.3s ease;
     cursor: default;

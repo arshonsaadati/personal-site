@@ -117,7 +117,7 @@ export function getPositions(i, total) {
     const normalizedDist = distFromCenter / maxDist
 
     // Edge particles are brighter, interior slightly dimmer
-    const edgeBrightness = 0.6 + normalizedDist * 0.4
+    const edgeBrightness = 0.36 + normalizedDist * 0.24
     const variance = (Math.random() - 0.5) * 0.08
 
     return {
@@ -189,7 +189,7 @@ export function getPositions(i, total) {
     // Blend colors of the two connected cards
     const fc = CARD_COLORS[fromIdx]
     const tc = CARD_COLORS[toIdx]
-    const brightness = 0.5 + arcHeight * 0.4
+    const brightness = 0.25 + arcHeight * 0.2
 
     return {
       x: bx + (Math.random() - 0.5) * spread,
@@ -198,7 +198,7 @@ export function getPositions(i, total) {
       r: (fc.r * (1 - t) + tc.r * t) * brightness,
       g: (fc.g * (1 - t) + tc.g * t) * brightness,
       b: (fc.b * (1 - t) + tc.b * t) * brightness,
-      size: randomRange(0.8, 1.2) * (0.5 + arcHeight * 0.8),
+      size: randomRange(0.3, 0.5) * (0.4 + arcHeight * 0.5),
     }
   }
 }

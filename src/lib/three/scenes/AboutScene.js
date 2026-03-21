@@ -51,24 +51,24 @@ const SKILL_NODES = []
     { r: 1.0, g: 0.97, b: 0.88 },   // soft white
   ]
 
+  // Helix spiral: nodes ascending along Y with radius 17
+  // t goes from 0 to 2π across the 8 skill nodes
+  const HELIX_RADIUS = 17
   for (let n = 0; n < 8; n++) {
-    const baseAngle = (n / 8) * Math.PI * 2
-    // Organic variance: slight random offset in angle and radius
-    const angle = baseAngle + (Math.random() - 0.5) * 0.25
-    const r = CONSTELLATION_RADIUS + (Math.random() - 0.5) * 8
-    // Slight z offset for 3D depth
-    const zOff = (Math.random() - 0.5) * 12
+    const t = (n / 7) * Math.PI * 2  // 0 → 2π
+    const hx = HELIX_RADIUS * Math.cos(t)
+    const hy = -20 + t * 6            // ascends from -20 to -20 + 12π ≈ +17.7
+    const hz = HELIX_RADIUS * Math.sin(t)
 
     SKILL_NODES.push({
-      x: CX + Math.cos(angle) * r,
-      y: CY + Math.sin(angle) * r,
-      z: CZ + zOff,
+      x: CX + hx,
+      y: CY + hy,
+      z: CZ + hz,
       label: labels[n],
-      radius: 2.5 + Math.random() * 1.5,
+      radius: 2.5 + Math.random() * 1.2,
       color: colors[n],
-      // Per-node orbit tilt for variety
-      orbitTiltX: (Math.random() - 0.5) * 1.2,
-      orbitTiltZ: (Math.random() - 0.5) * 0.8,
+      orbitTiltX: (Math.random() - 0.5) * 0.8,
+      orbitTiltZ: (Math.random() - 0.5) * 0.6,
     })
   }
 }
@@ -102,7 +102,7 @@ export function getPositions(i, total) {
 
     // Distance-based color: core brighter, edges slightly dimmer
     const distRatio = r / node.radius
-    const brightness = 1.0 - distRatio * 0.3
+    const brightness = Math.min(0.65, (1.0 - distRatio * 0.3) * 0.65)
     const nc = node.color
 
     // Center node is larger and more prominent
@@ -114,9 +114,9 @@ export function getPositions(i, total) {
       x: node.x + ox,
       y: node.y + oy,
       z: node.z + oz,
-      r: Math.min(1, nc.r * brightness + Math.random() * 0.05),
-      g: Math.min(1, nc.g * brightness + Math.random() * 0.04),
-      b: Math.min(1, nc.b * brightness + Math.random() * 0.06),
+      r: Math.min(0.65, nc.r * brightness + Math.random() * 0.03),
+      g: Math.min(0.65, nc.g * brightness + Math.random() * 0.02),
+      b: Math.min(0.65, nc.b * brightness + Math.random() * 0.03),
       size: randomRange(sizeMin, sizeMax),
     }
   }
