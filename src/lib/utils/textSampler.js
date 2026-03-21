@@ -26,7 +26,7 @@ export function sampleTextPositions(text, fontSize = 120, maxSamples = 16000, ta
 
   // Set up font — bold, large, with fallbacks
   const fontFamily = '"Inter", "Arial Black", "Helvetica Neue", Arial, sans-serif'
-  ctx.font = `700 ${fontSize}px ${fontFamily}`
+  ctx.font = `900 ${fontSize}px ${fontFamily}`
 
   // Measure text to size the canvas tightly
   const metrics = ctx.measureText(text)
@@ -39,7 +39,7 @@ export function sampleTextPositions(text, fontSize = 120, maxSamples = 16000, ta
   canvas.height = textHeight + padding * 2
 
   // Re-apply font after resize (canvas reset clears it)
-  ctx.font = `700 ${fontSize}px ${fontFamily}`
+  ctx.font = `900 ${fontSize}px ${fontFamily}`
   ctx.fillStyle = '#ffffff'
   ctx.textBaseline = 'middle'
   ctx.textAlign = 'center'

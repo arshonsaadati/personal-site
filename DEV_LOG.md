@@ -4,6 +4,25 @@ Timestamped entries from each agent working on the portfolio site. Each entry in
 
 ---
 
+## 2026-03-21 — AGENT: builder-round9
+
+### Fix 1 — Bloom completely off
+- PostProcessing.js: bloom strength 0.06 → 0.0 (disabled)
+- AdditiveBlending creates natural glow; bloom was causing dense text clusters to wash out white
+
+### Fix 2 — Hero name split into two lines, smaller particles
+- HeroScene.js: replaced single "ARSHON SAADATI" (6K particles) with two separate groups:
+  - 60–69%: "ARSHON" (5K particles, y=6, z=15, size 0.7–1.1)
+  - 70–79%: "SAADATI" (5K particles, y=-4, z=15, size 0.7–1.1)
+- textSampler.js: font-weight 700 → 900 (thicker strokes, better letterform sampling)
+- sampleTextPositions args: fontSize=160, maxSamples=5000, targetWidth=55 per word
+
+### Fix 3 — Subtitle particle size reduced
+- HeroScene.js: "SOFTWARE ENGINEER" subtitle size randomRange(0.6,0.9) → randomRange(0.5,0.8)
+
+### Fix 4 — Screenshot script corrected
+- /tmp/site-validate/screenshot.mjs: 4 scrolls → 5 scrolls to exit all project nodes before About
+
 ## 2026-03-21 — AGENT: builder-round8
 
 ### Fix 1 — Hero name legibility

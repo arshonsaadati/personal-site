@@ -69,7 +69,7 @@ export class PostProcessing {
     // strength: 1.5 (strong bloom), radius: 0.4 (medium spread), threshold: 0.2 (low — most particles glow)
     this.bloomPass = new UnrealBloomPass(
       new THREE.Vector2(size.x, size.y),
-      0.06,  // strength — near-zero; particle AdditiveBlending handles glow naturally
+      0.0,   // strength — OFF; AdditiveBlending creates natural glow without post-processing
       0.15,  // radius — tight spread
       0.75    // threshold — only pixels above 70% brightness bloom (text particles stay below this)
     )

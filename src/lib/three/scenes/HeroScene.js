@@ -15,17 +15,20 @@ import { sampleTextPositions } from '../../utils/textSampler.js'
  *  90–100%  (8K) — Ambient floaters
  */
 
-let textPositions = null
+let arshonPositions = null
+let saadatiPositions = null
 let subtitlePositions = null
 
 function ensureTextSampled() {
-  if (!textPositions) {
-    textPositions = sampleTextPositions('ARSHON SAADATI', 140, 6000, 90)
+  if (!arshonPositions) {
+    arshonPositions = sampleTextPositions('ARSHON', 160, 5000, 55)
+  }
+  if (!saadatiPositions) {
+    saadatiPositions = sampleTextPositions('SAADATI', 160, 5000, 55)
   }
   if (!subtitlePositions) {
     subtitlePositions = sampleTextPositions('SOFTWARE ENGINEER', 55, 8000, 70)
   }
-  return { textPositions, subtitlePositions }
 }
 
 const NEBULA_CLUSTERS = [
@@ -125,43 +128,49 @@ export function getPositions(i, total) {
     }
   }
 
-  // ─── NAME TEXT "ARSHON SAADATI" (60–79%) ───
-  if (i < textEnd) {
-    const { textPositions: positions } = ensureTextSampled()
+  // ─── "ARSHON" text (60–69%) ───
+  if (i < Math.floor(total * 0.70)) {
+    ensureTextSampled()
 
-    if (!positions || positions.length === 0) {
-      return {
-        x: (Math.random() - 0.5) * 60,
-        y: (Math.random() - 0.5) * 10,
-        z: 14,
-        r: 1, g: 1, b: 1, size: 0.8,
-      }
+    if (!arshonPositions || arshonPositions.length === 0) {
+      return { x: (Math.random() - 0.5) * 60, y: 6, z: 15, r: 1, g: 1, b: 1, size: 0.9 }
     }
 
     const groupIndex = i - Math.floor(total * 0.6)
-    const textIdx = groupIndex % positions.length
-    const pos = positions[textIdx]
-
-    const zJitter = (Math.random() - 0.5) * 8.0  // ±4 z-spread
-    const cyanAmount = Math.random() * 0.25
-    const brightness = 0.60 + Math.random() * 0.08   // 0.60-0.68 range (below 0.75 bloom threshold)
-
+    const pos = arshonPositions[groupIndex % arshonPositions.length]
     return {
       x: pos.x,
-      y: pos.y,
-      z: 15 + zJitter,
-      r: Math.min(0.9, brightness - cyanAmount * 0.1),
-      g: Math.min(0.9, brightness + cyanAmount * 0.05),
-      b: Math.min(0.9, brightness + cyanAmount * 0.2),
-      size: randomRange(1.4, 2.0),
+      y: 6 + pos.y,
+      z: 15 + (Math.random() - 0.5) * 4,
+      r: 0.85, g: 0.90, b: 1.0,
+      size: randomRange(0.7, 1.1),
+    }
+  }
+
+  // ─── "SAADATI" text (70–79%) ───
+  if (i < textEnd) {
+    ensureTextSampled()
+
+    if (!saadatiPositions || saadatiPositions.length === 0) {
+      return { x: (Math.random() - 0.5) * 60, y: -4, z: 15, r: 1, g: 1, b: 1, size: 0.9 }
+    }
+
+    const groupIndex = i - Math.floor(total * 0.7)
+    const pos = saadatiPositions[groupIndex % saadatiPositions.length]
+    return {
+      x: pos.x,
+      y: -4 + pos.y,
+      z: 15 + (Math.random() - 0.5) * 4,
+      r: 0.85, g: 0.88, b: 1.0,
+      size: randomRange(0.7, 1.1),
     }
   }
 
   // ─── SOFTWARE ENGINEER SUBTITLE (80–89%) ───
   if (i < subtitleEnd) {
-    const { subtitlePositions: positions } = ensureTextSampled()
+    ensureTextSampled()
 
-    if (!positions || positions.length === 0) {
+    if (!subtitlePositions || subtitlePositions.length === 0) {
       return {
         x: (Math.random() - 0.5) * 60,
         y: -9,
@@ -171,10 +180,10 @@ export function getPositions(i, total) {
     }
 
     const groupIndex = i - Math.floor(total * 0.8)
-    const textIdx = groupIndex % positions.length
-    const pos = positions[textIdx]
+    const textIdx = groupIndex % subtitlePositions.length
+    const pos = subtitlePositions[textIdx]
 
-    // Pale blue-white, 0.55-0.7 range (below bloom threshold of 0.5)
+    // Pale blue-white, 0.55-0.7 range
     const variance = Math.random() * 0.15
     return {
       x: pos.x,
@@ -183,7 +192,7 @@ export function getPositions(i, total) {
       r: 0.50 + variance * 0.25,
       g: 0.58 + variance * 0.2,
       b: Math.min(0.7, 0.65 + variance * 0.1),
-      size: randomRange(0.6, 0.9),
+      size: randomRange(0.5, 0.8),
     }
   }
 
