@@ -11,10 +11,10 @@
   } from '../lib/stores/navigation.svelte.js';
 
   const sections = [
-    { label: "Home", color: "#6a0dad" },
-    { label: "Projects", color: "#00e5ff" },
-    { label: "About", color: "#ffd54f" },
-    { label: "Contact", color: "#e040fb" },
+    { label: "Home" },
+    { label: "Projects" },
+    { label: "About" },
+    { label: "Contact" },
   ];
 </script>
 
@@ -27,7 +27,6 @@
       onclick={() => navigateTo(i)}
       aria-label="Navigate to {section.label}"
       aria-current={navigationState.currentSection === i ? "true" : undefined}
-      style="--dot-color: {section.color}"
     >
       <span class="dot"></span>
       <span class="label">{section.label}</span>
@@ -63,7 +62,7 @@
   }
 
   .nav-dot:focus-visible {
-    outline: 2px solid var(--dot-color);
+    outline: 2px solid rgba(150, 80, 255, 0.8);
     outline-offset: 4px;
     border-radius: 8px;
   }
@@ -72,33 +71,31 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background: color-mix(in srgb, var(--dot-color) 35%, transparent);
-    border: 1.5px solid color-mix(in srgb, var(--dot-color) 40%, transparent);
+    background: rgba(255, 255, 255, 0.4);
+    border: 1.5px solid rgba(255, 255, 255, 0.4);
     transition: all 0.35s ease;
     flex-shrink: 0;
   }
 
   .nav-dot:hover .dot {
-    background: color-mix(in srgb, var(--dot-color) 60%, transparent);
-    border-color: color-mix(in srgb, var(--dot-color) 70%, transparent);
+    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(255, 255, 255, 0.7);
     transform: scale(1.3);
-    box-shadow: 0 0 8px color-mix(in srgb, var(--dot-color) 30%, transparent);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
   }
 
   .nav-dot.transitioning .dot {
-    background: color-mix(in srgb, var(--dot-color) 65%, transparent);
+    background: rgba(255, 255, 255, 0.65);
     transform: scale(1.3);
     animation: dotPulse 0.8s ease-in-out infinite;
   }
 
   .nav-dot.active .dot {
-    background: var(--dot-color);
-    border-color: var(--dot-color);
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 1);
     transform: scale(1.33);
     animation: activePulse 2s ease-in-out infinite;
-    box-shadow:
-      0 0 12px color-mix(in srgb, var(--dot-color) 50%, transparent),
-      0 0 24px color-mix(in srgb, var(--dot-color) 25%, transparent);
+    box-shadow: 0 0 8px rgba(150, 80, 255, 0.8), 0 0 16px rgba(150, 80, 255, 0.4);
   }
 
   .label {
@@ -113,16 +110,16 @@
   }
 
   .nav-dot:hover .label {
-    color: color-mix(in srgb, var(--dot-color) 80%, white);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   .nav-dot.active .label {
-    color: color-mix(in srgb, var(--dot-color) 50%, white);
+    color: rgba(255, 255, 255, 0.6);
   }
 
   @keyframes activePulse {
-    0%, 100% { box-shadow: 0 0 12px color-mix(in srgb, var(--dot-color) 50%, transparent), 0 0 24px color-mix(in srgb, var(--dot-color) 25%, transparent); }
-    50% { box-shadow: 0 0 18px color-mix(in srgb, var(--dot-color) 75%, transparent), 0 0 36px color-mix(in srgb, var(--dot-color) 40%, transparent); }
+    0%, 100% { box-shadow: 0 0 8px rgba(150, 80, 255, 0.8), 0 0 16px rgba(150, 80, 255, 0.4); }
+    50% { box-shadow: 0 0 14px rgba(150, 80, 255, 1), 0 0 28px rgba(150, 80, 255, 0.6); }
   }
 
   @keyframes dotPulse {

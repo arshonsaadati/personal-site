@@ -49,6 +49,7 @@ export function navigateTo(index) {
 }
 
 export function navigateNext() {
+  console.log('[nav] navigateNext called, section:', _currentSection)
   if (_currentSection < SECTION_COUNT - 1) {
     navigateTo(_currentSection + 1)
   }

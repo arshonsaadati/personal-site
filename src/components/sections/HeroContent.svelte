@@ -7,6 +7,7 @@
 </script>
 
 <div class="hero-content">
+  <h1 class="hero-name">Arshon Saadati</h1>
   <p class="subtitle">Software Engineer</p>
 
   <div class="scroll-hint">
@@ -32,6 +33,19 @@
     padding-bottom: 60px;
     pointer-events: none;
     user-select: none;
+  }
+
+
+  .hero-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 7rem);
+    letter-spacing: -0.02em;
+    color: white;
+    text-align: center;
+    margin: 0 0 0.3em 0;
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(180, 100, 255, 0.6), 0 0 80px rgba(100, 50, 200, 0.3);
   }
 
   .subtitle {
@@ -104,7 +118,20 @@
   }
 
   @media (max-width: 640px) {
-    .subtitle {
+  
+  .hero-name {
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 8vw, 7rem);
+    letter-spacing: -0.02em;
+    color: white;
+    text-align: center;
+    margin: 0 0 0.3em 0;
+    line-height: 1;
+    text-shadow: 0 0 40px rgba(180, 100, 255, 0.6), 0 0 80px rgba(100, 50, 200, 0.3);
+  }
+
+  .subtitle {
       font-size: 1rem;
       letter-spacing: 4px;
     }

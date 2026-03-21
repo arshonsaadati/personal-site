@@ -180,3 +180,51 @@ All acceptance criteria met:
 - Accuracy depends on calibration + lighting. User needs to test.
 - Eye tracking and hand tracking can run simultaneously (separate webcam consumers handled by browser)
 - The gaze cursor currently just shows where you're looking. Next step: snap-to-nearest-interactive based on gaze position.
+
+---
+## 2026-03-21 — AGENT: polish/fixes (builder-round1)
+
+### Changes Made
+
+**1. Name Visibility (CRITICAL)**
+- `src/lib/utils/textSampler.js`: Increased `targetWidth` from 60 → 80 world units so text is larger relative to camera at z=100
+- `src/lib/three/scenes/HeroScene.js`: Moved text particles to `z=15` (in front of nebula core), increased size range from 0.7–1.2 → 1.2–1.8, boosted cyan brightness
+- `src/lib/three/scenes/HeroScene.js`: Reduced nebula cluster sigmas (12→9, 8→6, 9→7, 7→5, 6→4) so nebula is less diffuse and doesn't wash out text
+- `src/lib/three/scenes/HeroScene.js`: Replaced random phi with sunflower uniform distribution for stars
+
+**2. Settings Panel (CRITICAL)**
+- Created `src/components/SettingsPanel.svelte`: frosted-glass gear icon (⚙️) fixed to bottom-right, reveals glass-morphism panel with Hand Control and Eye Tracking toggles on click
+- `src/App.svelte`: Removed `<HandPrompt />` and `<EyeTrackingPrompt />` from top level, added `<SettingsPanel />` — default view is now clean
+
+**3. Navigation HUD Polish**
+- `src/components/NavigationHUD.svelte`: Increased dot size from 10px → 12px, added `activePulse` keyframe animation on active dot with glowing box-shadow pulse
+
+**4. Scroll Hint Visibility**
+- `src/components/sections/HeroContent.svelte`: Bumped scroll hint text opacity from 30% → 70%, chevron color from 25% → 60%, chevron stroke-width 1.5 → 2, bounce animation opacity min 0.4 → 0.7
+
+Build: ✅ clean (vite build, no new errors)
+Commit: 95003c5
+
+---
+
+## 2026-03-21 — AGENT: polish/fixes (builder-round2)
+
+### Critical Bug Fixes
+
+**1. Scroll Transitions (CRITICAL FIX)**
+- `src/lib/three/TransitionManager.js`: Fixed timing bug — `_transitionStartTime` was set with `performance.now() / 1000` (absolute Unix time, ~thousands of seconds) but `elapsed` from `SceneManager.clock.getElapsedTime()` is relative (starts at 0). The diff was always a huge negative, so `rawProgress` was always ≤ 0. Fixed by using `performance.now() / 1000` in `update()` instead of `elapsed` for `timeSinceStart` calculation.
+- `src/lib/stores/navigation.svelte.js`: Added `console.log('[nav] navigateNext called, section:', _currentSection)` for scroll debug confirmation.
+
+**2. Bloom Reduction (CRITICAL)**
+- `src/lib/three/PostProcessing.js`: Reduced UnrealBloomPass `strength` 1.5 → 0.6, `radius` 0.4 → 0.3, `threshold` 0.2 → 0.3. Prevents name text from being obliterated by bloom.
+
+**3. HTML Name Overlay**
+- `src/components/sections/HeroContent.svelte`: Added `<h1 class="hero-name">Arshon Saadati</h1>` with Inter 900 weight, clamp(3rem, 8vw, 7rem), purple glow text-shadow. Always readable regardless of particle/bloom state.
+
+**4. Nebula Z-Offset**
+- `src/lib/three/scenes/HeroScene.js`: Moved all nebula cluster centers to negative Z (-6 to -15), behind text at z=15. Reduced nebula particle size from 0.4-1.5 → 0.3-0.7 range.
+
+**5. Navigation Dot Colors**
+- `src/components/NavigationHUD.svelte`: Replaced rainbow section colors (cyan/gold/magenta) with clean white scheme. Inactive dots: white 40% opacity. Active dot: white 100% with purple glow `box-shadow: 0 0 8px rgba(150, 80, 255, 0.8)`.
+
+Build: ✅ clean

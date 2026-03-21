@@ -82,7 +82,7 @@ export class TransitionManager {
    */
   update(deltaTime, elapsed) {
     if (this._isAnimating) {
-      const timeSinceStart = elapsed - this._transitionStartTime
+      const timeSinceStart = (performance.now() / 1000) - this._transitionStartTime
       const rawProgress = Math.min(timeSinceStart / this._transitionDuration, 1)
 
       // Eased progress for camera movement

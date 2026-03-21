@@ -27,11 +27,11 @@ function ensureTextSampled() {
 
 // Nebula cluster centers — multiple overlapping clouds for organic shape
 const NEBULA_CLUSTERS = [
-  { x: 0, y: 0, z: 0, sigma: 9, weight: 0.35 },
-  { x: -10, y: 5, z: -3, sigma: 6, weight: 0.2 },
-  { x: 8, y: -4, z: 5, sigma: 7, weight: 0.2 },
-  { x: 3, y: 8, z: -6, sigma: 5, weight: 0.15 },
-  { x: -5, y: -7, z: 4, sigma: 4, weight: 0.1 },
+  { x: 0, y: 0, z: -8, sigma: 9, weight: 0.35 },
+  { x: -10, y: 5, z: -10, sigma: 6, weight: 0.2 },
+  { x: 8, y: -4, z: -6, sigma: 7, weight: 0.2 },
+  { x: 3, y: 8, z: -12, sigma: 5, weight: 0.15 },
+  { x: -5, y: -7, z: -15, sigma: 4, weight: 0.1 },
 ]
 
 // Pre-compute cumulative weights for cluster selection
@@ -124,7 +124,7 @@ export function getPositions(i, total) {
       r: Math.min(1, r * coreBrightness + Math.random() * 0.05),
       g: Math.min(1, g * coreBrightness + Math.random() * 0.03),
       b: Math.min(1, b * coreBrightness + Math.random() * 0.08),
-      size: randomRange(0.4, 1.5) * (0.5 + falloff * 0.8),
+      size: randomRange(0.3, 0.7) * (0.5 + falloff * 0.6),
     }
   }
 
