@@ -35,7 +35,7 @@
 <style>
   .project-hud {
     position: fixed;
-    bottom: 80px;
+    bottom: 120px;
     left: 50%;
     transform: translateX(-50%);
     width: min(600px, 90vw);

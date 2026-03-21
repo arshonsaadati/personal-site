@@ -71,7 +71,10 @@ let contactTextPositions = null
 
 function ensureTextSampled() {
   if (!contactTextPositions) {
-    contactTextPositions = sampleTextPositions('CONTACT', 120, 8000)
+    // fontSize=70 sets canvas resolution; targetWidth=40 sets world-unit span
+    // Contact camera at z=-80, text at z=-100 (distance=20), viewport ~55 wide
+    // targetWidth=40 → text fills ~73% of viewport width
+    contactTextPositions = sampleTextPositions('CONTACT', 70, 6000, 40)
   }
   return contactTextPositions
 }
@@ -89,7 +92,7 @@ export function getPositions(i, total) {
     if (!positions || positions.length === 0) {
       return {
         x: (Math.random() - 0.5) * 40,
-        y: CY + 12,
+        y: CY + 8,
         z: CZ,
         r: MAGENTA.r, g: MAGENTA.g, b: MAGENTA.b,
         size: 1.0,
@@ -104,7 +107,7 @@ export function getPositions(i, total) {
 
     return {
       x: pos.x,
-      y: CY + 12 + pos.y,   // top area at y=12
+      y: CY + 8 + pos.y,    // top area at y=8 (safe within viewport)
       z: CZ + (Math.random() - 0.5) * 0.8,
       r: Math.min(MAX_BRIGHTNESS + 0.1, nc.r + variation),
       g: Math.min(MAX_BRIGHTNESS + 0.1, nc.g + variation),

@@ -69,9 +69,9 @@ export class PostProcessing {
     // strength: 1.5 (strong bloom), radius: 0.4 (medium spread), threshold: 0.2 (low — most particles glow)
     this.bloomPass = new UnrealBloomPass(
       new THREE.Vector2(size.x, size.y),
-      0.35,  // strength — reduced to show particle structure
-      0.25,  // radius
-      0.4    // threshold
+      0.2,   // strength — very subtle, only faint aura on bright particles
+      0.2,   // radius — tight spread
+      0.5    // threshold — only pixels above 50% brightness bloom
     )
     this.composer.addPass(this.bloomPass)
 

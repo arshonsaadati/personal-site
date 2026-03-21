@@ -114,9 +114,9 @@ export function getPositions(i, total) {
       x: cluster.x + ox,
       y: cluster.y + oy,
       z: cluster.z + oz,
-      r: Math.min(0.7, r * coreBrightness + Math.random() * 0.05),
-      g: Math.min(0.7, g * coreBrightness + Math.random() * 0.03),
-      b: Math.min(0.7, b * coreBrightness + Math.random() * 0.08),
+      r: Math.min(0.55, r * coreBrightness + Math.random() * 0.05),
+      g: Math.min(0.55, g * coreBrightness + Math.random() * 0.03),
+      b: Math.min(0.55, b * coreBrightness + Math.random() * 0.08),
       size: randomRange(0.3, 0.7) * (0.5 + falloff * 0.6),
     }
   }
@@ -139,16 +139,16 @@ export function getPositions(i, total) {
     const pos = positions[textIdx]
 
     const zJitter = (Math.random() - 0.5) * 1.0
-    const cyanAmount = Math.random() * 0.35
-    const brightness = 0.85 + Math.random() * 0.15
+    const cyanAmount = Math.random() * 0.25
+    const brightness = 0.75 + Math.random() * 0.15   // 0.75-0.90 range
 
     return {
       x: pos.x,
       y: pos.y,
       z: 15 + zJitter,
-      r: Math.min(1, brightness - cyanAmount * 0.1),
-      g: Math.min(1, brightness + cyanAmount * 0.05),
-      b: Math.min(1, brightness + cyanAmount * 0.3),
+      r: Math.min(0.9, brightness - cyanAmount * 0.1),
+      g: Math.min(0.9, brightness + cyanAmount * 0.05),
+      b: Math.min(0.9, brightness + cyanAmount * 0.2),
       size: randomRange(1.2, 1.8),
     }
   }
@@ -170,15 +170,15 @@ export function getPositions(i, total) {
     const textIdx = groupIndex % positions.length
     const pos = positions[textIdx]
 
-    // Pale blue-white (#b0c4ff range)
+    // Pale blue-white, 0.55-0.7 range (below bloom threshold of 0.5)
     const variance = Math.random() * 0.15
     return {
       x: pos.x,
       y: pos.y - 9,    // offset down from name text
       z: 13 + (Math.random() - 0.5) * 0.8,
-      r: 0.69 + variance * 0.3,
-      g: 0.77 + variance * 0.2,
-      b: Math.min(1, 1.0 - variance * 0.1),
+      r: 0.50 + variance * 0.25,
+      g: 0.58 + variance * 0.2,
+      b: Math.min(0.7, 0.65 + variance * 0.1),
       size: randomRange(0.6, 0.9),
     }
   }

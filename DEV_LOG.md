@@ -346,3 +346,40 @@ Build: ✅ `npm run build` — no errors, 1.19s
 - Kept GitHub/LinkedIn/Email glass pill buttons
 
 Build: ✅ `npm run build` — clean, no errors (only pre-existing FaceMesh warning from WebGazer)
+
+---
+
+## 2026-03-21 — AGENT: builder-round5
+
+### Fixes Applied
+
+**PostProcessing.js — bloom reduction:**
+- UnrealBloom: strength 0.35→0.2, radius 0.25→0.2, threshold 0.4→0.5
+- Only pixels above 50% brightness bloom, and the effect is very subtle
+
+**HeroScene.js — brightness control:**
+- Nebula: r/g/b capped at 0.55 (was 0.7) — richer deep space colors
+- Name text ("ARSHON SAADATI"): brightness 0.75-0.90 range (was 0.85-1.0), won't trigger heavy bloom
+- Subtitle ("SOFTWARE ENGINEER"): 0.50-0.70 range (was 0.69-0.85)
+
+**textSampler.js — configurable world width:**
+- Added optional 4th param `targetWidth` (default 80) so callers can control world-unit text span
+- Cache key includes targetWidth
+
+**ContactScene.js — text size/position fix:**
+- fontSize: 120→70, particles: 8000→6000, targetWidth: 80→40
+- Camera at z=-80, text at z=-100 (distance 20), viewport ~55 units wide → 40 world units fills ~73% ✓
+- y-offset: CY+12→CY+8 to prevent text top from clipping viewport edge
+
+**AboutScene.js — text world size fix:**
+- ARSHON: targetWidth 80→50 (fits in ~71% of visible width at camera distance 26)
+- SAADATI: targetWidth 80→55
+
+**ProjectsScene.js — organic bloom, no stripe:**
+- z-jitter: (-0.5, 0.5)→(-3, 3) — particles spread in depth, bloom emanates from a cloud
+- Title particle brightness capped at 0.8 (was up to 1.0)
+
+**ProjectsContent.svelte — reduce vertical gap:**
+- HUD panel: bottom 80px→120px (closer to particle titles)
+
+Build: ✅ `npm run build` — clean, 1.17s

@@ -77,11 +77,15 @@ export function getProjectNodePositions(nodeIndex) {
       const bg = Math.min(1, Math.max(0, color.g + variation))
       const bb = Math.min(1, Math.max(0, color.b + variation))
 
+      // Cap at 0.8 to avoid bloom stripe; spread z to make glow organic
+      const cr = Math.min(0.8, br)
+      const cg = Math.min(0.8, bg)
+      const cb = Math.min(0.8, bb)
       return {
         x: pos.x,
-        y: pos.y + 5,                          // center text at y=5
-        z: (Math.random() - 0.5) * 1.0,        // slight depth jitter
-        r: br, g: bg, b: bb,
+        y: pos.y + 5,                           // center text at y=5
+        z: randomRange(-3, 3),                  // deep z-spread → cloud-like bloom
+        r: cr, g: cg, b: cb,
         size: randomRange(1.0, 1.4),
       }
     }

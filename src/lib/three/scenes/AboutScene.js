@@ -29,10 +29,10 @@ let saadatiPositions = null
 
 function ensureTextSampled() {
   if (!arshonPositions) {
-    arshonPositions = sampleTextPositions('ARSHON', 130, 12000)
+    arshonPositions = sampleTextPositions('ARSHON', 130, 12000, 50)
   }
   if (!saadatiPositions) {
-    saadatiPositions = sampleTextPositions('SAADATI', 110, 8000)
+    saadatiPositions = sampleTextPositions('SAADATI', 110, 8000, 55)
   }
 }
 

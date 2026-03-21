@@ -16,8 +16,8 @@ const cache = new Map()
  * @param {number} [maxSamples=16000] - Max number of sample positions to return
  * @returns {Array<{x: number, y: number}>} Centered, world-unit-scaled coordinates
  */
-export function sampleTextPositions(text, fontSize = 120, maxSamples = 16000) {
-  const key = `${text}|${fontSize}|${maxSamples}`
+export function sampleTextPositions(text, fontSize = 120, maxSamples = 16000, targetWidth = 80) {
+  const key = `${text}|${fontSize}|${maxSamples}|${targetWidth}`
   if (cache.has(key)) return cache.get(key)
 
   // Create offscreen canvas
@@ -93,8 +93,7 @@ export function sampleTextPositions(text, fontSize = 120, maxSamples = 16000) {
     }
   }
 
-  // Normalize: center at origin, scale so text spans ~60 world units wide
-  const targetWidth = 80
+  // Normalize: center at origin, scale so text spans targetWidth world units wide
   const scale = targetWidth / w
   const halfW = w / 2
   const halfH = h / 2
