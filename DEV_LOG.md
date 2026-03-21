@@ -4,6 +4,25 @@ Timestamped entries from each agent working on the portfolio site. Each entry in
 
 ---
 
+## 2026-03-21 — AGENT: builder-round8
+
+### Fix 1 — Hero name legibility
+- HeroScene.js: reduced name particles 10K → 6K, added targetWidth=90 for wider spread
+- Name particle size: randomRange(1.4, 2.0) (was 1.2–1.8)
+- Name particle brightness: 0.60–0.68 (was 0.55–0.65)
+- textSampler.js: font-weight 900 → 700 (thinner strokes, letterforms emerge from gaps)
+
+### Fix 2 — Magenta dim
+- ProjectsScene.js: last node color r=0.38, g=0.08, b=0.42 (was 0.50/0.10/0.50)
+
+### Fix 3 — About text viewport clipping
+- AboutScene.js: ARSHON targetWidth 50 → 40, SAADATI targetWidth 55 → 44
+
+### Fix 4 — About text overlaps career bullets
+- AboutScene.js: TEXT_CX 0 → 8
+
+---
+
 ## 2026-03-19 — AGENT: particle-engine
 
 ### 00:00 — Session Start

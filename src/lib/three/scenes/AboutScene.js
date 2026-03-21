@@ -20,7 +20,7 @@ const CY = 5
 const CZ = -30
 
 // Text is centered at scene origin (x=0, matching lookAt)
-const TEXT_CX = 0
+const TEXT_CX = 8
 const TEXT_CY = 5  // camera lookAt y
 const TEXT_CZ = -30
 
@@ -29,10 +29,10 @@ let saadatiPositions = null
 
 function ensureTextSampled() {
   if (!arshonPositions) {
-    arshonPositions = sampleTextPositions('ARSHON', 130, 12000, 50)
+    arshonPositions = sampleTextPositions('ARSHON', 130, 12000, 40)
   }
   if (!saadatiPositions) {
-    saadatiPositions = sampleTextPositions('SAADATI', 110, 8000, 55)
+    saadatiPositions = sampleTextPositions('SAADATI', 110, 8000, 44)
   }
 }
 

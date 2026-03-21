@@ -20,7 +20,7 @@ let subtitlePositions = null
 
 function ensureTextSampled() {
   if (!textPositions) {
-    textPositions = sampleTextPositions('ARSHON SAADATI', 140, 10000)
+    textPositions = sampleTextPositions('ARSHON SAADATI', 140, 6000, 90)
   }
   if (!subtitlePositions) {
     subtitlePositions = sampleTextPositions('SOFTWARE ENGINEER', 55, 8000, 70)
@@ -144,7 +144,7 @@ export function getPositions(i, total) {
 
     const zJitter = (Math.random() - 0.5) * 8.0  // ±4 z-spread
     const cyanAmount = Math.random() * 0.25
-    const brightness = 0.55 + Math.random() * 0.10   // 0.55-0.65 range (below 0.7 bloom threshold)
+    const brightness = 0.60 + Math.random() * 0.08   // 0.60-0.68 range (below 0.75 bloom threshold)
 
     return {
       x: pos.x,
@@ -153,7 +153,7 @@ export function getPositions(i, total) {
       r: Math.min(0.9, brightness - cyanAmount * 0.1),
       g: Math.min(0.9, brightness + cyanAmount * 0.05),
       b: Math.min(0.9, brightness + cyanAmount * 0.2),
-      size: randomRange(1.2, 1.8),
+      size: randomRange(1.4, 2.0),
     }
   }
 

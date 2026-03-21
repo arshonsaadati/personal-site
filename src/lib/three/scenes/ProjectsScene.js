@@ -29,7 +29,7 @@ const PROJECT_COLORS = [
   { r: 0.00, g: 0.898, b: 1.000 },  // #00e5ff cyan
   { r: 0.00, g: 0.749, b: 0.647 },  // #00bfa5 teal
   { r: 0.486, g: 0.302, b: 1.000 }, // #7c4dff purple
-  { r: 0.50,  g: 0.10,  b: 0.50  }, // magenta dimmed — perceptual luminance blooms harder
+  { r: 0.38,  g: 0.08,  b: 0.42  }, // magenta dark — clearly below 0.75 bloom threshold
 ]
 
 // Cache: nodeIndex -> Array<{x,y}>
