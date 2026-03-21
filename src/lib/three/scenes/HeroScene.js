@@ -142,7 +142,7 @@ export function getPositions(i, total) {
     const textIdx = groupIndex % positions.length
     const pos = positions[textIdx]
 
-    const zJitter = (Math.random() - 0.5) * 1.0
+    const zJitter = (Math.random() - 0.5) * 8.0  // ±4 z-spread
     const cyanAmount = Math.random() * 0.25
     const brightness = 0.55 + Math.random() * 0.10   // 0.55-0.65 range (below 0.7 bloom threshold)
 

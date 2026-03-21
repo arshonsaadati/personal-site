@@ -29,7 +29,7 @@ const PROJECT_COLORS = [
   { r: 0.00, g: 0.898, b: 1.000 },  // #00e5ff cyan
   { r: 0.00, g: 0.749, b: 0.647 },  // #00bfa5 teal
   { r: 0.486, g: 0.302, b: 1.000 }, // #7c4dff purple
-  { r: 0.878, g: 0.251, b: 0.984 }, // #e040fb magenta
+  { r: 0.50,  g: 0.10,  b: 0.50  }, // magenta dimmed — perceptual luminance blooms harder
 ]
 
 // Cache: nodeIndex -> Array<{x,y}>
@@ -84,9 +84,9 @@ export function getProjectNodePositions(nodeIndex) {
       return {
         x: pos.x,
         y: pos.y + 5,                           // center text at y=5
-        z: randomRange(-3, 3),                  // deep z-spread → cloud-like bloom
+        z: randomRange(-5, 5),                  // deep z-spread → cloud-like bloom
         r: cr, g: cg, b: cb,
-        size: randomRange(1.0, 1.4),
+        size: randomRange(1.2, 1.8),
       }
     }
 

@@ -402,3 +402,17 @@ Build: ✅ `npm run build` — clean, 1.17s
 ### Fix 4: Hero particle counts / subtitle width
 - `HeroScene.js`: Name text 16K → 10K particles (better legibility, visible letter gaps).
 - Subtitle `sampleTextPositions` gains 4th arg `targetWidth=70` (slightly narrower, avoids edge overflow).
+
+## 2026-03-21 — Bloom near-zero + particle size/spread increase
+
+**Problem:** Project title particles (SKYRYSE, FCC SIMULATOR, etc.) and hero name showed aggressive bloom bars despite individual particle brightness capped at 0.65. Root cause: dense per-pixel particle overlap in screen space accumulated framebuffer brightness well above the 0.75 bloom threshold.
+
+**Fixes applied:**
+
+1. **PostProcessing.js** — Bloom near-zero: `strength 0.2→0.06`, `radius 0.2→0.15`, `threshold 0.7→0.75`. Particle shader's `AdditiveBlending` handles glow organically; post-processing bloom now exists only for nebula core.
+
+2. **ProjectsScene.js** — Title text z-jitter `±3→±5`, particle size `1.0-1.4→1.2-1.8`. Larger, more spread particles = glow from alpha falloff, not bloom blowout.
+
+3. **HeroScene.js** — Hero name z-jitter `±0.5→±4`. Size already at 1.2-1.8 from prior round.
+
+4. **ProjectsScene.js (magenta)** — "THIS PORTFOLIO" accent color dimmed: `r=0.878,g=0.251,b=0.984 → r=0.50,g=0.10,b=0.50`. Magenta has higher perceptual luminance and bloomed harder than other colors.
