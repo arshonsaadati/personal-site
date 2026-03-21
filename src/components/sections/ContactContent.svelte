@@ -22,12 +22,7 @@
 </script>
 
 <div class="contact-content">
-  <div class="content-backdrop">
-  <header class="section-header">
-    <h2 class="section-title">Get in Touch</h2>
-    <p class="section-subtitle">Let's build something together</p>
-  </header>
-  </div>
+  <p class="section-subtitle">Let's build something together</p>
 
   <div class="contact-links">
     {#each links as link}
@@ -71,29 +66,6 @@
     gap: 48px;
     position: relative;
     z-index: 20;
-  }
-
-  .content-backdrop {
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    padding: 2rem 2.5rem;
-    border-radius: 1rem;
-    border: 1px solid rgba(224, 64, 251, 0.08);
-  }
-
-  .section-header {
-    text-align: center;
-  }
-
-  .section-title {
-    font-size: 2.2rem;
-    font-weight: 200;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin: 0 0 12px 0;
-    color: var(--contact-primary);
-    text-shadow: 0 0 30px rgba(224, 64, 251, 0.3);
   }
 
   .section-subtitle {
@@ -159,10 +131,6 @@
     .contact-content {
       padding: 24px 16px;
       gap: 36px;
-    }
-
-    .section-title {
-      font-size: 1.6rem;
     }
 
     .contact-pill {

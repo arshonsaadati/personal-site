@@ -1,8 +1,8 @@
 <script>
   /**
    * HeroContent — minimal overlay for the Hero section.
-   * The particle text "ARSHON SAADATI" does the heavy lifting.
-   * This just shows a subtitle + scroll hint.
+   * "ARSHON SAADATI" and "SOFTWARE ENGINEER" are rendered as particle text.
+   * This only shows the scroll hint.
    */
   import { navigationState } from '../../lib/stores/navigation.svelte.js'
 
@@ -12,9 +12,6 @@
 </script>
 
 <div class="hero-content">
-  <h1 class="hero-name">Arshon Saadati</h1>
-  <p class="subtitle">Software Engineer</p>
-
   <div class="scroll-hint" style="opacity: {showScrollHint ? 1 : 0}; transition: opacity 0.6s ease;">
     <span>Scroll to explore</span>
     <div class="chevrons">
@@ -38,33 +35,6 @@
     padding-bottom: 60px;
     pointer-events: none;
     user-select: none;
-  }
-
-
-  .hero-name {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(3rem, 8vw, 7rem);
-    letter-spacing: -0.02em;
-    color: white;
-    text-align: center;
-    margin: 0 0 0.3em 0;
-    line-height: 1;
-    text-shadow: 0 0 40px rgba(180, 100, 255, 0.6), 0 0 80px rgba(100, 50, 200, 0.3);
-  }
-
-  .subtitle {
-    font-size: 1.3rem;
-    font-weight: 300;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.65);
-    margin: 0 0 80px 0;
-    text-shadow:
-      0 0 20px rgba(106, 13, 173, 0.5),
-      0 0 60px rgba(0, 229, 255, 0.15);
-    animation: subtitleFadeIn 1.5s ease-out both;
-    animation-delay: 0.3s;
   }
 
   .scroll-hint {
@@ -101,48 +71,16 @@
   }
 
   @keyframes chevronBounce {
-    0%, 100% {
-      transform: translateY(0);
-      opacity: 0.7;
-    }
-    50% {
-      transform: translateY(6px);
-      opacity: 1;
-    }
+    0%, 100% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(6px); opacity: 1; }
   }
 
   @keyframes subtitleFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   @media (max-width: 640px) {
-  
-  .hero-name {
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    font-size: clamp(3rem, 8vw, 7rem);
-    letter-spacing: -0.02em;
-    color: white;
-    text-align: center;
-    margin: 0 0 0.3em 0;
-    line-height: 1;
-    text-shadow: 0 0 40px rgba(180, 100, 255, 0.6), 0 0 80px rgba(100, 50, 200, 0.3);
-  }
-
-  .subtitle {
-      font-size: 1rem;
-      letter-spacing: 4px;
-    }
-
-    .hero-content {
-      padding-bottom: 40px;
-    }
+    .hero-content { padding-bottom: 40px; }
   }
 </style>

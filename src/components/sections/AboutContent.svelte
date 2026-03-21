@@ -95,23 +95,6 @@
 </script>
 
 <div class="about-content">
-  <!-- Bio Section -->
-  <section class="bio-section">
-    <div class="bio-card glass">
-      <h2 class="bio-name">Arshon Saadati</h2>
-      <p class="bio-text">
-        Software Engineer at <strong>Skyryse</strong> building low-latency flight control
-        and telemetry systems for FAA-conforming fly-by-wire helicopters.
-        University of Michigan CS grad. Previously at <strong>Amazon</strong>.
-      </p>
-      <div class="bio-tags">
-        <span class="bio-tag">Low-Latency Systems</span>
-        <span class="bio-tag">Real-Time Telemetry</span>
-        <span class="bio-tag">Full-Stack</span>
-      </div>
-    </div>
-  </section>
-
   <!-- Skills Section -->
   <section class="skills-section">
     <h3 class="subsection-title">Skills</h3>
@@ -175,65 +158,6 @@
     display: flex;
     flex-direction: column;
     gap: 48px;
-  }
-
-  /* Bio */
-  .bio-section {
-    text-align: center;
-  }
-
-  .bio-card {
-    padding: 36px 32px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 213, 79, 0.12);
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-  }
-
-  .bio-name {
-    font-size: 2rem;
-    font-weight: 200;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin: 0 0 16px 0;
-    color: var(--about-primary);
-    text-shadow: 0 0 30px rgba(255, 213, 79, 0.25);
-  }
-
-  .bio-text {
-    font-size: 1.05rem;
-    font-weight: 300;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.75);
-    margin: 0 0 20px 0;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .bio-text strong {
-    color: rgba(255, 255, 255, 0.95);
-    font-weight: 500;
-  }
-
-  .bio-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-  }
-
-  .bio-tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 100px;
-    background: rgba(255, 213, 79, 0.1);
-    color: var(--about-primary);
-    border: 1px solid rgba(255, 213, 79, 0.2);
   }
 
   /* Skills */
@@ -424,19 +348,6 @@
     .about-content {
       padding: 24px 16px;
       gap: 36px;
-    }
-
-    .bio-name {
-      font-size: 1.5rem;
-      letter-spacing: 3px;
-    }
-
-    .bio-text {
-      font-size: 0.95rem;
-    }
-
-    .bio-card {
-      padding: 24px 20px;
     }
 
     .timeline-card {

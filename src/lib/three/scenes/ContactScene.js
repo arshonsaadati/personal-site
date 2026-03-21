@@ -1,17 +1,17 @@
 import { randomRange, randomGaussian } from '../../utils/math.js'
+import { sampleTextPositions } from '../../utils/textSampler.js'
 
 /**
- * Contact scene: dual torus rings flanking the center — a "parted curtain"
- * effect that leaves the center content area (x: -12 to +12) clear.
+ * Contact scene: "CONTACT" in particle text at top, dual torus arcs flanking center.
  *
  * Camera: (0, 0, -80) looking at (0, 0, -100)
- * Two ring arcs: LEFT centered at (-25, 0, -100) and RIGHT at (+25, 0, -100).
- * Each ring has MAJOR_RADIUS=20, so they naturally span:
- *   Left:  x ≈ -45 to -5
- *   Right: x ≈ +5  to +45
- * Center column (x: -5 to +5) stays nearly empty — headings and buttons safe.
  *
- * Color palette: magenta, pink, violet. Brightness capped at 0.6.
+ * Particle budget (80,000 total):
+ *   0–10%   (8K) — "CONTACT" particle text, top area
+ *  10–45%  (28K) — Left torus arc
+ *  45–80%  (28K) — Right torus arc
+ *  80–92%  (9.6K) — Connecting stream
+ *  92–100%  (6.4K) — Sparse background
  */
 
 const CY = 0
@@ -67,22 +67,63 @@ function torusParticle(cx, arcStart, arcEnd) {
   }
 }
 
-export function getPositions(i, total) {
-  const leftEnd   = Math.floor(total * 0.35)
-  const rightEnd  = Math.floor(total * 0.70)
-  const streamEnd = Math.floor(total * 0.85)
+let contactTextPositions = null
 
-  // LEFT TORUS ARC: outward-facing left half
+function ensureTextSampled() {
+  if (!contactTextPositions) {
+    contactTextPositions = sampleTextPositions('CONTACT', 120, 8000)
+  }
+  return contactTextPositions
+}
+
+export function getPositions(i, total) {
+  const textEnd   = Math.floor(total * 0.10)
+  const leftEnd   = Math.floor(total * 0.45)
+  const rightEnd  = Math.floor(total * 0.80)
+  const streamEnd = Math.floor(total * 0.92)
+
+  // ─── "CONTACT" TEXT (0–9%): top area, magenta/pink ───
+  if (i < textEnd) {
+    const positions = ensureTextSampled()
+
+    if (!positions || positions.length === 0) {
+      return {
+        x: (Math.random() - 0.5) * 40,
+        y: CY + 12,
+        z: CZ,
+        r: MAGENTA.r, g: MAGENTA.g, b: MAGENTA.b,
+        size: 1.0,
+      }
+    }
+
+    const textIdx = i % positions.length
+    const pos = positions[textIdx]
+
+    const variation = (Math.random() - 0.5) * 0.1
+    const nc = lerpColor(MAGENTA, PINK, Math.random())
+
+    return {
+      x: pos.x,
+      y: CY + 12 + pos.y,   // top area at y=12
+      z: CZ + (Math.random() - 0.5) * 0.8,
+      r: Math.min(MAX_BRIGHTNESS + 0.1, nc.r + variation),
+      g: Math.min(MAX_BRIGHTNESS + 0.1, nc.g + variation),
+      b: Math.min(MAX_BRIGHTNESS + 0.1, nc.b + variation),
+      size: randomRange(1.0, 1.4),
+    }
+  }
+
+  // ─── LEFT TORUS ARC (10–44%) ───
   if (i < leftEnd) {
     return torusParticle(LEFT_CX, Math.PI * 0.4, Math.PI * 1.6)
   }
 
-  // RIGHT TORUS ARC: outward-facing right half
+  // ─── RIGHT TORUS ARC (45–79%) ───
   if (i < rightEnd) {
     return torusParticle(RIGHT_CX, -Math.PI * 0.6, Math.PI * 0.6)
   }
 
-  // CONNECTING STREAM: very dim wisps through center
+  // ─── CONNECTING STREAM (80–91%): dim wisps through center ───
   if (i < streamEnd) {
     const t = Math.random()
     const startX = LEFT_CX + MAJOR_RADIUS * 0.7
@@ -104,7 +145,7 @@ export function getPositions(i, total) {
     }
   }
 
-  // SPARSE BACKGROUND VOID
+  // ─── SPARSE BACKGROUND (92–100%) ───
   {
     const strategy = Math.random()
     let x, y, z
@@ -127,7 +168,7 @@ export function getPositions(i, total) {
     const dimness = 0.06 + Math.random() * 0.10
     const violetShift = Math.random() * 0.5
     return {
-      x: x,
+      x,
       y: CY + y,
       z: CZ + z,
       r: dimness * 0.6 + violetShift * 0.08,

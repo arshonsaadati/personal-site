@@ -6,7 +6,7 @@
   import { CameraPath } from '../lib/three/CameraPath.js'
   import { TransitionManager } from '../lib/three/TransitionManager.js'
   import { getPositions as heroPositions } from '../lib/three/scenes/HeroScene.js'
-  import { getPositions as projectsPositions } from '../lib/three/scenes/ProjectsScene.js'
+  import { getPositions as projectsPositions, getProjectNodePositions } from '../lib/three/scenes/ProjectsScene.js'
   import { getPositions as aboutPositions } from '../lib/three/scenes/AboutScene.js'
   import { getPositions as contactPositions } from '../lib/three/scenes/ContactScene.js'
   import {
@@ -15,6 +15,9 @@
     navigatePrev,
     navigateTo,
     navigationState,
+    nextProjectNode,
+    prevProjectNode,
+    resetProjectNode,
   } from '../lib/stores/navigation.svelte.js'
   import { handState } from '../lib/stores/hand.svelte.js'
 
@@ -75,6 +78,10 @@
 
     // Connect navigation store to transition manager
     setTransitionCallback((sectionIndex) => {
+      // When entering projects section, use node 0
+      if (sectionIndex === 1) {
+        resetProjectNode()
+      }
       transitionManager.transitionTo(sectionIndex)
     })
 
@@ -88,13 +95,10 @@
 
       // Update cursor position for particle repulsion when hand tracking is active
       if (handState.handEnabled && handState.handDetected) {
-        // Convert normalized cursor (0-1) to NDC (-1 to 1)
         cursorNDC.x = handState.cursorPosition.x * 2 - 1
         cursorNDC.y = -(handState.cursorPosition.y * 2 - 1)
 
-        // Raycast into scene to get 3D world position
         raycaster.setFromCamera(cursorNDC, sceneManager.camera)
-        // Project cursor onto a plane ~30 units in front of camera
         const dist = 30
         cursorWorldPos.copy(raycaster.ray.direction).multiplyScalar(dist).add(raycaster.ray.origin)
         particleSystem.setCursorPosition(cursorWorldPos)
@@ -111,10 +115,41 @@
       e.preventDefault()
       if (!canNavigate()) return
 
+      const section = navigationState.currentSection
+
       if (e.deltaY > 0) {
-        navigateNext()
+        // Scroll down
+        if (section === 1) {
+          // Projects section: sub-navigate through nodes
+          if (navigationState.projectNodeIndex < 5) {
+            nextProjectNode()
+            // Trigger particle morph to new node
+            transitionManager.transitionToNode(
+              getProjectNodePositions(navigationState.projectNodeIndex)
+            )
+          } else {
+            // Past last node → go to About
+            resetProjectNode()
+            navigateTo(2)
+          }
+        } else {
+          navigateNext()
+        }
       } else if (e.deltaY < 0) {
-        navigatePrev()
+        // Scroll up
+        if (section === 1) {
+          if (navigationState.projectNodeIndex > 0) {
+            prevProjectNode()
+            transitionManager.transitionToNode(
+              getProjectNodePositions(navigationState.projectNodeIndex)
+            )
+          } else {
+            // Before first node → go back to Hero
+            navigateTo(0)
+          }
+        } else {
+          navigatePrev()
+        }
       }
     }
 
@@ -122,7 +157,6 @@
 
     // ── Keyboard navigation ──
     const handleKeydown = (e) => {
-      // Don't intercept if user is typing in an input
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
 
       switch (e.key) {
@@ -166,14 +200,13 @@
       const deltaY = touchStartY - touchEndY
       const deltaX = touchStartX - touchEndX
 
-      // Only handle vertical swipes (ignore horizontal)
       if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > SWIPE_THRESHOLD) {
         if (!canNavigate()) return
 
         if (deltaY > 0) {
-          navigateNext() // swipe up -> next section
+          navigateNext()
         } else {
-          navigatePrev() // swipe down -> prev section
+          navigatePrev()
         }
       }
     }

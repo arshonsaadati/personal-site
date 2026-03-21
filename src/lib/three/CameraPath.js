@@ -11,7 +11,7 @@ export class CameraPath {
     // The spline interpolates smoothly through these
     this.positionCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(0, 0, 100),     // Hero: far back, centered
-      new THREE.Vector3(0, 5, 40),      // Projects: closer, slightly above
+      new THREE.Vector3(0, 5, 80),      // Projects: far back for text view, slightly above
       new THREE.Vector3(25, 12, -30),   // About: off to the right, higher
       new THREE.Vector3(0, 0, -80),     // Contact: deep forward
     ], false, 'catmullrom', 0.5)
@@ -19,7 +19,7 @@ export class CameraPath {
     // Camera look-at target path
     this.lookAtCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(0, 0, 0),       // Hero: look at center
-      new THREE.Vector3(0, 0, 0),       // Projects: look at center
+      new THREE.Vector3(0, 5, 0),       // Projects: look at text center
       new THREE.Vector3(0, 5, -30),     // About: look at the constellation center
       new THREE.Vector3(0, 0, -100),    // Contact: look deeper in
     ], false, 'catmullrom', 0.5)

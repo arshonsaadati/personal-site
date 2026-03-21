@@ -240,3 +240,109 @@ Build: ✅ clean
 - **HeroContent.svelte**: Added navigationState import + $derived showScrollHint — scroll hint fades out after first scroll.
 - Build: ✅ No errors
 
+
+---
+
+## 2026-03-21 — AGENT: builder-round4
+
+### Fixes Applied
+
+**ContactScene.js — CRITICAL fix:**
+- Replaced single centered torus (obliterating content) with two offset torus arcs
+- Left arc centered at x=-25, right arc at x=+25 (each MAJOR_RADIUS=20)
+- Natural gap x: -5 to +5 — center content column is now particle-free
+- All brightness capped at MAX_BRIGHTNESS=0.6 (was up to 1.0)
+- Connecting stream (center pass-through) at only 12-24% brightness
+
+**ProjectsScene.js — CRITICAL fix:**
+- Card particle `edgeBrightness` reduced from `0.6 + normalizedDist * 0.4` to `0.36 + normalizedDist * 0.24` (×0.6)
+- Stream `brightness` reduced from `0.5 + arcHeight * 0.4` to `0.25 + arcHeight * 0.2` (×0.5)
+- Stream particle size reduced from `randomRange(0.8, 1.2)` to `randomRange(0.3, 0.5)`
+
+**ProjectsContent.svelte — CRITICAL fix:**
+- Card background: `rgba(255,255,255,0.04)` → `rgba(0,0,0,0.75)` (opaque shield)
+- backdrop-filter unchanged at 8px blur
+
+**AboutScene.js — VISUAL fix:**
+- Replaced circular constellation with ascending 3D helix spiral
+- `x = CX + 17*cos(t)`, `y = CY + (-20 + t*6)`, `z = CZ + 17*sin(t)` (t: 0→2π)
+- Node cluster brightness capped at 0.65 max (was 1.0)
+
+**ContactContent.svelte — z-layering fix:**
+- `.contact-content` gets `position: relative; z-index: 20`
+- Section header wrapped in `.content-backdrop` (dark glass: rgba(0,0,0,0.45) + blur(6px))
+
+Build: ✅ `npm run build` — no errors, 1.19s
+
+---
+
+## 2026-03-21 — AGENT: builder-particle-text
+
+### Redesign: Particle Text for All Sections + Project Flythrough
+
+**Vision implemented**: Everything is particles. No HTML text as primary content. All major text formed from particle formations. HTML used only for tiny detail text (descriptions, tech tags) styled as dark HUD overlay panels.
+
+#### Changes Made
+
+**navigation.svelte.js**
+- Added `_projectNodeIndex` $state (0–5)
+- Added `projectNodeIndex` getter/setter to `navigationState`
+- Added `nextProjectNode()`, `prevProjectNode()`, `resetProjectNode()` exports
+
+**TransitionManager.js**
+- Added `transitionToNode(getPositionsFn)` method: morphs particles to new formation without moving camera (separate `_isNodeTransitioning` animation track, 1.5s duration)
+- Section transitions stop node transitions
+
+**CameraPath.js**
+- Projects camera position: `(0, 5, 40)` → `(0, 5, 80)` — farther back so text at z=0 fills view
+- Projects lookAt: `(0, 0, 0)` → `(0, 5, 0)` — center on text y-position
+
+**HeroScene.js**
+- Particle budget restructured: 32K stars / 16K nebula / 16K "ARSHON SAADATI" / 8K "SOFTWARE ENGINEER" / 8K ambient
+- "SOFTWARE ENGINEER" uses `sampleTextPositions('SOFTWARE ENGINEER', 55, 8000)` at y=-9, z=13
+- Pale blue-white color (#b0c4ff range), size 0.6–0.9
+
+**ProjectsScene.js** — complete rewrite
+- `getProjectNodePositions(nodeIndex)` returns closure for a specific project
+- 75% title text particles using `sampleTextPositions(title, 100, 10000)` centered at y=5
+- 25% ambient stars tinted to project accent color
+- `getPositions` defaults to node 0 for initial registration
+- Titles: SKYRYSE, FCC SIMULATOR, YOLKED AI, AMAZON SCOT, BUILD-A-FAIR, THIS PORTFOLIO
+- Accent colors match projects.js
+
+**AboutScene.js** — particle text added
+- New budget: 12K "ARSHON" / 8K "SAADATI" / 20K helix / 20K bg stars / 20K orbital rings
+- "ARSHON" at y=+3 offset from camera lookAt (y=8 world), gold color
+- "SAADATI" at y=-7 offset (y=-2 world), amber color
+- Helix constellation stays RIGHT at CX=37
+
+**ContactScene.js** — particle text added
+- New budget: 8K "CONTACT" / 28K left arc / 28K right arc / 9.6K stream / 6.4K background
+- "CONTACT" at y=CY+12 using `sampleTextPositions('CONTACT', 120, 8000)`, magenta/pink colors
+
+**Canvas.svelte**
+- Imports `nextProjectNode`, `prevProjectNode`, `resetProjectNode`, `getProjectNodePositions`
+- Wheel handler: when section=1, scroll down increments projectNodeIndex + calls `transitionToNode`; when at last node (5), advances to About; when at node 0 and scroll up, goes to Hero
+- When entering Projects section via nav callback, resets `projectNodeIndex` to 0
+
+**ProjectsContent.svelte** — complete rewrite
+- Minimal dark glass HUD panel (bottom center, fixed position)
+- Shows: node counter (N/6), project description, tech tags, GitHub link (if present)
+- Scroll hint text
+- Animated fade-in on mount
+
+**HeroContent.svelte** — stripped
+- Removed h1 "Arshon Saadati" (particles handle it)
+- Removed "Software Engineer" subtitle (particles handle it)
+- Kept ONLY the "Scroll to explore" chevron hint
+
+**AboutContent.svelte**
+- Removed "Arshon Saadati" bio section header (particles handle the name)
+- Kept skills grid, career timeline — left-aligned HUD panels
+
+**ContactContent.svelte**
+- Removed "Get in Touch" H2 heading (particles handle it)
+- Kept "Let's build something together" subtitle
+- Kept GitHub/LinkedIn/Email glass pill buttons
+
+Build: ✅ `npm run build` — clean, no errors (only pre-existing FaceMesh warning from WebGazer)

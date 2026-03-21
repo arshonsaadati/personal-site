@@ -18,6 +18,7 @@ let _currentSection = $state(0)
 let _transitionProgress = $state(0)
 let _isTransitioning = $state(false)
 let _targetSection = $state(0)
+let _projectNodeIndex = $state(0)
 
 export const navigationState = {
   get currentSection() { return _currentSection },
@@ -31,6 +32,9 @@ export const navigationState = {
 
   get targetSection() { return _targetSection },
   set targetSection(v) { _targetSection = v },
+
+  get projectNodeIndex() { return _projectNodeIndex },
+  set projectNodeIndex(v) { _projectNodeIndex = v },
 }
 
 export function navigateTo(index) {
@@ -49,7 +53,6 @@ export function navigateTo(index) {
 }
 
 export function navigateNext() {
-  console.log('[nav] navigateNext called, section:', _currentSection)
   if (_currentSection < SECTION_COUNT - 1) {
     navigateTo(_currentSection + 1)
   }
@@ -59,4 +62,16 @@ export function navigatePrev() {
   if (_currentSection > 0) {
     navigateTo(_currentSection - 1)
   }
+}
+
+export function nextProjectNode() {
+  if (_projectNodeIndex < 5) _projectNodeIndex++
+}
+
+export function prevProjectNode() {
+  if (_projectNodeIndex > 0) _projectNodeIndex--
+}
+
+export function resetProjectNode() {
+  _projectNodeIndex = 0
 }
