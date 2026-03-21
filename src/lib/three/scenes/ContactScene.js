@@ -109,9 +109,9 @@ export function getPositions(i, total) {
       x: pos.x,
       y: CY + 8 + pos.y,    // top area at y=8 (safe within viewport)
       z: CZ + (Math.random() - 0.5) * 0.8,
-      r: Math.min(MAX_BRIGHTNESS + 0.1, nc.r + variation),
-      g: Math.min(MAX_BRIGHTNESS + 0.1, nc.g + variation),
-      b: Math.min(MAX_BRIGHTNESS + 0.1, nc.b + variation),
+      r: Math.min(0.60, nc.r + variation),
+      g: Math.min(0.60, nc.g + variation),
+      b: Math.min(0.60, nc.b + variation),
       size: randomRange(1.0, 1.4),
     }
   }

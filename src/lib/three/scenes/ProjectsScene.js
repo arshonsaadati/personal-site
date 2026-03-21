@@ -77,10 +77,10 @@ export function getProjectNodePositions(nodeIndex) {
       const bg = Math.min(1, Math.max(0, color.g + variation))
       const bb = Math.min(1, Math.max(0, color.b + variation))
 
-      // Cap at 0.8 to avoid bloom stripe; spread z to make glow organic
-      const cr = Math.min(0.8, br)
-      const cg = Math.min(0.8, bg)
-      const cb = Math.min(0.8, bb)
+      // Cap at 0.65 — below bloom threshold of 0.7 so text stays sharp
+      const cr = Math.min(0.65, br)
+      const cg = Math.min(0.65, bg)
+      const cb = Math.min(0.65, bb)
       return {
         x: pos.x,
         y: pos.y + 5,                           // center text at y=5

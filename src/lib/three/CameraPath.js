@@ -12,7 +12,7 @@ export class CameraPath {
     this.positionCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(0, 0, 100),     // Hero: far back, centered
       new THREE.Vector3(0, 5, 80),      // Projects: far back for text view, slightly above
-      new THREE.Vector3(25, 12, -30),   // About: off to the right, higher
+      new THREE.Vector3(0, 8, 2),        // About: directly in front of text, slightly above
       new THREE.Vector3(0, 0, -80),     // Contact: deep forward
     ], false, 'catmullrom', 0.5)
 

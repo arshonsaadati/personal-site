@@ -383,3 +383,22 @@ Build: ✅ `npm run build` — clean, no errors (only pre-existing FaceMesh warn
 - HUD panel: bottom 80px→120px (closer to particle titles)
 
 Build: ✅ `npm run build` — clean, 1.17s
+
+## 2026-03-21 — About camera, bloom threshold, particle brightness
+
+### Fix 1: About camera angle
+- `CameraPath.js`: About position `(25, 12, -30)` → `(0, 8, 2)` — camera now faces text straight-on instead of 45° from the side. Eliminates "flame pillar" visual artifact.
+- lookAt unchanged at `(0, 5, -30)`.
+
+### Fix 2: Bloom threshold raised
+- `PostProcessing.js`: UnrealBloomPass threshold `0.5` → `0.7`. Only truly bright pixels (nebula core) bloom; text particles no longer bleed into each other.
+
+### Fix 3: Text particle brightness capped below threshold
+- `HeroScene.js`: Name text brightness `0.75–0.90` → `0.55–0.65`; stars `0.65–1.00` → `0.40–0.60`; nebula core (falloff > 0.7) allowed to bloom `0.72–0.85`; outer nebula capped at 0.60.
+- `AboutScene.js`: ARSHON gold `r=0.60–0.65, g=0.48–0.55, b=0.15–0.22`; SAADATI amber `r=0.53–0.60, g=0.38–0.45, b≈0`.
+- `ProjectsScene.js`: Title text cap `0.80` → `0.65`.
+- `ContactScene.js`: CONTACT text cap `0.70` → `0.60`.
+
+### Fix 4: Hero particle counts / subtitle width
+- `HeroScene.js`: Name text 16K → 10K particles (better legibility, visible letter gaps).
+- Subtitle `sampleTextPositions` gains 4th arg `targetWidth=70` (slightly narrower, avoids edge overflow).

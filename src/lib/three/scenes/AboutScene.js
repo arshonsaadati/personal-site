@@ -106,16 +106,15 @@ export function getPositions(i, total) {
 
     const textIdx = i % positions.length
     const pos = positions[textIdx]
-    const brightness = 0.8 + Math.random() * 0.2
-    const nc = { r: 1.0, g: 0.84, b: 0.31 } // gold
+    const bv = 0.55 + Math.random() * 0.10   // 0.55-0.65 below bloom threshold
 
     return {
       x: TEXT_CX + pos.x,
       y: TEXT_CY + 3 + pos.y,  // y=8 offset from lookAt y=5
       z: TEXT_CZ + (Math.random() - 0.5) * 0.8,
-      r: Math.min(1, nc.r * brightness),
-      g: Math.min(1, nc.g * brightness),
-      b: Math.min(1, nc.b * brightness),
+      r: Math.min(0.65, 0.60 + Math.random() * 0.05),   // gold r: 0.60-0.65
+      g: Math.min(0.55, 0.48 + Math.random() * 0.07),   // gold g: 0.48-0.55
+      b: Math.min(0.22, 0.15 + Math.random() * 0.07),   // gold b: 0.15-0.22
       size: randomRange(1.0, 1.5),
     }
   }
@@ -136,16 +135,14 @@ export function getPositions(i, total) {
 
     const textIdx = i % positions.length
     const pos = positions[textIdx]
-    const brightness = 0.75 + Math.random() * 0.2
-    const nc = { r: 1.0, g: 0.67, b: 0.0 } // amber
 
     return {
       x: TEXT_CX + pos.x,
       y: TEXT_CY - 7 + pos.y,  // y=-2 offset
       z: TEXT_CZ + (Math.random() - 0.5) * 0.8,
-      r: Math.min(1, nc.r * brightness),
-      g: Math.min(1, nc.g * brightness),
-      b: Math.min(1, nc.b * brightness),
+      r: Math.min(0.60, 0.53 + Math.random() * 0.07),   // amber r: 0.53-0.60
+      g: Math.min(0.45, 0.38 + Math.random() * 0.07),   // amber g: 0.38-0.45
+      b: Math.min(0.05, Math.random() * 0.05),           // amber b: ~0.0
       size: randomRange(0.9, 1.3),
     }
   }

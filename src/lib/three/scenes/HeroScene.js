@@ -20,10 +20,10 @@ let subtitlePositions = null
 
 function ensureTextSampled() {
   if (!textPositions) {
-    textPositions = sampleTextPositions('ARSHON SAADATI', 140, 16000)
+    textPositions = sampleTextPositions('ARSHON SAADATI', 140, 10000)
   }
   if (!subtitlePositions) {
-    subtitlePositions = sampleTextPositions('SOFTWARE ENGINEER', 55, 8000)
+    subtitlePositions = sampleTextPositions('SOFTWARE ENGINEER', 55, 8000, 70)
   }
   return { textPositions, subtitlePositions }
 }
@@ -77,7 +77,7 @@ export function getPositions(i, total) {
     const y = radius * Math.sin(phi) * Math.sin(theta)
     const z = radius * Math.cos(phi)
 
-    const brightness = 0.65 + Math.random() * 0.35
+    const brightness = 0.40 + Math.random() * 0.20  // 0.40-0.60 range (stars stay below bloom threshold)
     const blueTint = Math.random() * 0.15
     const isHighlight = Math.random() < 0.05
     const boost = isHighlight ? 0.3 : 0
@@ -108,15 +108,19 @@ export function getPositions(i, total) {
     const g = DEEP_BLUE.g * (1 - purpleMix) + PURPLE.g * purpleMix
     const b = DEEP_BLUE.b * (1 - purpleMix) + PURPLE.b * purpleMix
 
-    const coreBrightness = 0.3 + falloff * 0.4
+    // Core particles (high falloff) bloom intentionally; outer particles stay below threshold
+    const isCore = falloff > 0.7
+    const coreBrightness = isCore
+      ? 0.72 + falloff * 0.13 + Math.random() * 0.05   // 0.72–0.85: blooms slightly
+      : 0.3 + falloff * 0.3                             // outer: stays dim
 
     return {
       x: cluster.x + ox,
       y: cluster.y + oy,
       z: cluster.z + oz,
-      r: Math.min(0.55, r * coreBrightness + Math.random() * 0.05),
-      g: Math.min(0.55, g * coreBrightness + Math.random() * 0.03),
-      b: Math.min(0.55, b * coreBrightness + Math.random() * 0.08),
+      r: Math.min(isCore ? 0.85 : 0.60, r * coreBrightness + Math.random() * 0.05),
+      g: Math.min(isCore ? 0.85 : 0.60, g * coreBrightness + Math.random() * 0.03),
+      b: Math.min(isCore ? 0.85 : 0.60, b * coreBrightness + Math.random() * 0.08),
       size: randomRange(0.3, 0.7) * (0.5 + falloff * 0.6),
     }
   }
@@ -140,7 +144,7 @@ export function getPositions(i, total) {
 
     const zJitter = (Math.random() - 0.5) * 1.0
     const cyanAmount = Math.random() * 0.25
-    const brightness = 0.75 + Math.random() * 0.15   // 0.75-0.90 range
+    const brightness = 0.55 + Math.random() * 0.10   // 0.55-0.65 range (below 0.7 bloom threshold)
 
     return {
       x: pos.x,

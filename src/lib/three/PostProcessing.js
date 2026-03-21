@@ -71,7 +71,7 @@ export class PostProcessing {
       new THREE.Vector2(size.x, size.y),
       0.2,   // strength — very subtle, only faint aura on bright particles
       0.2,   // radius — tight spread
-      0.5    // threshold — only pixels above 50% brightness bloom
+      0.7    // threshold — only pixels above 70% brightness bloom (text particles stay below this)
     )
     this.composer.addPass(this.bloomPass)
 
