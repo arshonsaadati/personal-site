@@ -17,7 +17,7 @@ import { randomRange, randomGaussian } from '../../utils/math.js'
  */
 
 // Scene center (matches camera lookAt)
-const CX = 0
+const CX = 37
 const CY = 5
 const CZ = -30
 

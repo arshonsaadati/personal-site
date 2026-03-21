@@ -4,13 +4,18 @@
    * The particle text "ARSHON SAADATI" does the heavy lifting.
    * This just shows a subtitle + scroll hint.
    */
+  import { navigationState } from '../../lib/stores/navigation.svelte.js'
+
+  const showScrollHint = $derived(
+    navigationState.currentSection === 0 && !navigationState.isTransitioning
+  )
 </script>
 
 <div class="hero-content">
   <h1 class="hero-name">Arshon Saadati</h1>
   <p class="subtitle">Software Engineer</p>
 
-  <div class="scroll-hint">
+  <div class="scroll-hint" style="opacity: {showScrollHint ? 1 : 0}; transition: opacity 0.6s ease;">
     <span>Scroll to explore</span>
     <div class="chevrons">
       <svg class="chevron" width="24" height="24" viewBox="0 0 24 24" fill="none">

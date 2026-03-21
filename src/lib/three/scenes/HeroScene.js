@@ -115,15 +115,15 @@ export function getPositions(i, total) {
     const b = DEEP_BLUE.b * (1 - purpleMix) + PURPLE.b * purpleMix
 
     // Core particles get a brightness boost
-    const coreBrightness = 0.5 + falloff * 0.6
+    const coreBrightness = 0.3 + falloff * 0.4
 
     return {
       x: cluster.x + ox,
       y: cluster.y + oy,
       z: cluster.z + oz,
-      r: Math.min(1, r * coreBrightness + Math.random() * 0.05),
-      g: Math.min(1, g * coreBrightness + Math.random() * 0.03),
-      b: Math.min(1, b * coreBrightness + Math.random() * 0.08),
+      r: Math.min(0.7, r * coreBrightness + Math.random() * 0.05),
+      g: Math.min(0.7, g * coreBrightness + Math.random() * 0.03),
+      b: Math.min(0.7, b * coreBrightness + Math.random() * 0.08),
       size: randomRange(0.3, 0.7) * (0.5 + falloff * 0.6),
     }
   }

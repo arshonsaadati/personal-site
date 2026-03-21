@@ -168,8 +168,8 @@
 <style>
   .about-content {
     width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
+    max-width: 55%;
+    margin: 0;
     padding: 40px 24px;
     pointer-events: auto;
     display: flex;

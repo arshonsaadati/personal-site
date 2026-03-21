@@ -45,7 +45,7 @@
   .section-overlay {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: 10;
     pointer-events: none;
     transition: opacity 0.15s ease-out;
   }

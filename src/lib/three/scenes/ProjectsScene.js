@@ -198,7 +198,7 @@ export function getPositions(i, total) {
       r: (fc.r * (1 - t) + tc.r * t) * brightness,
       g: (fc.g * (1 - t) + tc.g * t) * brightness,
       b: (fc.b * (1 - t) + tc.b * t) * brightness,
-      size: randomRange(0.15, 0.4) * (0.5 + arcHeight * 0.8),
+      size: randomRange(0.8, 1.2) * (0.5 + arcHeight * 0.8),
     }
   }
 }
