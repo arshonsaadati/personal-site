@@ -228,3 +228,15 @@ Commit: 95003c5
 - `src/components/NavigationHUD.svelte`: Replaced rainbow section colors (cyan/gold/magenta) with clean white scheme. Inactive dots: white 40% opacity. Active dot: white 100% with purple glow `box-shadow: 0 0 8px rgba(150, 80, 255, 0.8)`.
 
 Build: ✅ clean
+## 2026-03-21 15:55 — AGENT: builder-round3
+
+### Changes Made
+- **PostProcessing.js**: UnrealBloom reduced — strength 0.6→0.35, radius 0.3→0.25, threshold 0.3→0.4. Particles should show structure instead of white smear.
+- **HeroScene.js**: Nebula coreBrightness reduced (0.5+falloff*0.6 → 0.3+falloff*0.4), capped r/g/b at 0.7 instead of 1.0. Richer colors without blowout.
+- **AboutScene.js**: CX shifted from 0 to 37 — entire constellation moves right so it doesn't overlap left-side text.
+- **AboutContent.svelte**: max-width changed from 900px to 55%, margin changed from 0 auto to 0 (left-aligned).
+- **ProjectsScene.js**: Stream particle sizes increased from 0.15–0.4 to 0.8–1.2 for visibility.
+- **SectionOverlay.svelte**: z-index raised from 1 to 10 so cards render above particles.
+- **HeroContent.svelte**: Added navigationState import + $derived showScrollHint — scroll hint fades out after first scroll.
+- Build: ✅ No errors
+
