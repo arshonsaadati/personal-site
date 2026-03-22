@@ -8,8 +8,8 @@ import { sampleTextPositions } from '../../utils/textSampler.js'
  * Camera: (25, 12, -30) looking at (0, 5, -30)
  *
  * Particle budget (80,000 total):
- *   0–15%  (12K) — "ARSHON" text  at center-left, y=8
- *  15–25%   (8K) — "SAADATI" text at center-left, y=-2
+ *   0–15%   (3K) — "ARSHON" text  at center-left, y=8 (sparse watermark)
+ *  15–25%   (2K) — "SAADATI" text at center-left, y=-2 (sparse watermark)
  *  25–50%  (20K) — Helix constellation, x=+37 (right side)
  *  50–75%  (20K) — Warm background stars
  *  75–100% (20K) — Orbital rings around helix nodes
@@ -29,10 +29,10 @@ let saadatiPositions = null
 
 function ensureTextSampled() {
   if (!arshonPositions) {
-    arshonPositions = sampleTextPositions('ARSHON', 130, 12000, 40)
+    arshonPositions = sampleTextPositions('ARSHON', 130, 1200, 40)
   }
   if (!saadatiPositions) {
-    saadatiPositions = sampleTextPositions('SAADATI', 110, 8000, 44)
+    saadatiPositions = sampleTextPositions('SAADATI', 110, 800, 44)
   }
 }
 
@@ -112,10 +112,10 @@ export function getPositions(i, total) {
       x: TEXT_CX + pos.x,
       y: TEXT_CY + 3 + pos.y,  // y=8 offset from lookAt y=5
       z: TEXT_CZ + (Math.random() - 0.5) * 0.8,
-      r: Math.min(0.65, 0.60 + Math.random() * 0.05),   // gold r: 0.60-0.65
-      g: Math.min(0.55, 0.48 + Math.random() * 0.07),   // gold g: 0.48-0.55
-      b: Math.min(0.22, 0.15 + Math.random() * 0.07),   // gold b: 0.15-0.22
-      size: randomRange(1.0, 1.5),
+      r: 0.07 + Math.random() * 0.03,   // gold r: watermark ~10%
+      g: 0.055 + Math.random() * 0.025,   // gold g: watermark ~10%
+      b: 0.01 + Math.random() * 0.01,   // gold b: watermark ~10%
+      size: randomRange(0.5, 0.8),
     }
   }
 
@@ -140,10 +140,10 @@ export function getPositions(i, total) {
       x: TEXT_CX + pos.x,
       y: TEXT_CY - 7 + pos.y,  // y=-2 offset
       z: TEXT_CZ + (Math.random() - 0.5) * 0.8,
-      r: Math.min(0.60, 0.53 + Math.random() * 0.07),   // amber r: 0.53-0.60
-      g: Math.min(0.45, 0.38 + Math.random() * 0.07),   // amber g: 0.38-0.45
-      b: Math.min(0.05, Math.random() * 0.05),           // amber b: ~0.0
-      size: randomRange(0.9, 1.3),
+      r: 0.06 + Math.random() * 0.02,   // amber r: watermark ~10%
+      g: 0.04 + Math.random() * 0.02,   // amber g: watermark ~10%
+      b: Math.random() * 0.01,   // amber b: ~0.0 watermark
+      size: randomRange(0.4, 0.7),
     }
   }
 

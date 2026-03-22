@@ -16,6 +16,11 @@
     <div class="project-counter">
       {navigationState.projectNodeIndex + 1} / {projects.length}
     </div>
+    <div class="progress-dots" aria-label="Project progress">
+      {#each projects as _, i}
+        <span class="progress-dot" class:active={i === navigationState.projectNodeIndex}></span>
+      {/each}
+    </div>
     <div class="project-detail">
       <p class="project-desc">{project.description}</p>
       <div class="tech-tags">
@@ -53,7 +58,29 @@
     border-radius: 14px;
     padding: 1.5rem 2rem;
     pointer-events: auto;
+    z-index: 20;
     animation: hudFadeIn 0.5s ease both;
+  }
+
+  .progress-dots {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+
+  .progress-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.3s ease;
+  }
+
+  .progress-dot.active {
+    background: color-mix(in srgb, var(--accent) 80%, white);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 60%, transparent);
   }
 
   @keyframes hudFadeIn {
