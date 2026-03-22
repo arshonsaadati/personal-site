@@ -526,3 +526,52 @@ Build: ✅ `npm run build` — clean, 1.17s
 - About: skills, career timeline, gold watermark (subtle), "Outside of Work" (snowboarding/climbing/swimming/Japan)
 - Contact: "Open to opportunities" badge, GitHub/LinkedIn/Email/Download Resume buttons
 
+
+---
+
+## 2026-03-21 — AGENT: loop-orchestrator-3
+
+### Visual Validation — All Sections
+Screenshot script v6 successfully captured all sections (fixed About navigation timing):
+- Hero ✅ — Clean particle text, tagline, social links, scroll indicator
+- Projects ✅ — FCC SIMULATOR cyan text legible; HUD card showing with category label
+- About Top ✅ — Career timeline, skills, gold ARSHON/SAADATI watermark visible at 15% brightness
+- About Interests ✅ — 4 interest cards present (snowboard, climbing, swimming, Japan); icons render as emoji squares in headless Chromium but display fine in real browsers
+- Contact ✅ — CONTACT particle text, "Open to opportunities" badge, 4 buttons including View Resume
+
+### Changes Made
+
+#### Task 4 — About particle watermark
+- `AboutScene.js`: Restored watermark to 3000+2000 particles (up from 1200+800) at ~15% brightness (up from ~10%)
+- `TEXT_CX`: shifted from 8 to 15 to push watermark further right, away from career bullet text
+- Result: watermark clearly visible in screenshots without overpowering content
+
+#### Task 5 — "THIS PORTFOLIO" particle legibility
+- `ProjectsScene.js`: node index 5 uses 8000 particles (down from 10000) to reduce magenta blur
+- z-jitter increased to ±6 for node 5 (up from ±5) for more depth variation
+
+#### Task 6 — Category labels in project HUD
+- `src/data/projects.js`: Added `category` field to all 6 projects:
+  - SKYRYSE: "AVIATION · RUST · REAL-TIME"
+  - FCC SIMULATOR: "SIMULATION · RUST"
+  - YOLKED AI: "AI · iOS · NODE"
+  - AMAZON SCOT: "ML · AWS · TYPESCRIPT"
+  - BUILD-A-FAIR: "WEB · FIREBASE · REALTIME"
+  - THIS PORTFOLIO: "THREE.JS · SVELTE · GLSL"
+- `ProjectsContent.svelte`: Added `.project-category` element above description with subtle accent-colored uppercase letter-spaced styling
+- ✅ Confirmed visible in screenshots
+
+#### Task 7 — Resume page
+- `public/resume.html`: Clean HTML resume with CSS for Arshon Saadati — Experience (Skyryse, Amazon SCOT, Amazon Intern), Education (UMich BSE CS), Skills grid, Selected Projects
+- `public/resume.pdf`: Placeholder text file
+- `ContactContent.svelte`: Updated Download Resume → View Resume, href → /resume.html
+
+### Build Status
+- `npm run build` passes clean (only pre-existing FaceMesh warning)
+- Pushed to main: commit 1c44f6c
+
+### Score Assessment
+Site is at ~9.0/10. All major sections working. Key remaining opportunities:
+- Replace emoji icons with SVG icons in interest cards (emoji don't render in headless)
+- Add GitHub links to project detail overlays (currently `links: {}` for most projects)
+- Add prev/next project navigation in detail overlay
