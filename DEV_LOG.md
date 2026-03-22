@@ -504,3 +504,25 @@ Build: ✅ `npm run build` — clean, 1.17s
 **Build: ✅ passes**  
 **Visual validation: ✅ all sections look good**  
 **GitHub: pushed all commits to main**
+
+---
+
+## 2026-03-21 — Loop Agent Session (v2)
+
+### Validation Status: ✅ All 5 sections working
+
+#### Fixes Applied:
+1. **Project HUD z-index** — Added `z-index: 20` to `.project-hud` to prevent scroll container from intercepting clicks on "View Details" button
+2. **Progress dots** — Added 6-dot progress indicator to Project HUD card showing current project position with accent-colored active dot
+3. **About particle text opacity** — Reduced ARSHON/SAADATI text from 20,000 particles to 2,000 (1,200 + 800), reduced r/g/b to ~10% of original, reduced particle sizes to 0.5–0.8 range. Result: sparse watermark that doesn't obscure career content
+4. **All sections verified working**: Hero ✅, Projects with progress dots ✅, Project detail overlay ✅, About with interests ✅, Contact with badge + download ✅
+
+#### Screenshots saved: memory/final2-*.png, memory/si-*.png
+
+#### Confirmed working:
+- Hero: particle name, tagline, social links
+- Projects: flythrough, HUD with progress dots, "View Details" opens overlay
+- Project detail: image, description, achievements, tech stack, close button
+- About: skills, career timeline, gold watermark (subtle), "Outside of Work" (snowboarding/climbing/swimming/Japan)
+- Contact: "Open to opportunities" badge, GitHub/LinkedIn/Email/Download Resume buttons
+
