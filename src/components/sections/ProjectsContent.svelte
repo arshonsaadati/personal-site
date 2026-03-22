@@ -5,6 +5,7 @@
    */
   import { navigationState } from '../../lib/stores/navigation.svelte.js'
   import { projects } from '../../data/projects.js'
+  import { openProjectDetail } from '../../lib/stores/projectDetail.svelte.js'
 
   const project = $derived(projects[navigationState.projectNodeIndex] ?? projects[0])
   const isProjects = $derived(navigationState.currentSection === 1)
@@ -23,11 +24,16 @@
         {/each}
       </div>
     </div>
-    {#if project.links?.github}
-      <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="project-link">
-        View on GitHub →
-      </a>
-    {/if}
+    <div class="hud-footer">
+      {#if project.links?.github}
+        <a href={project.links.github} target="_blank" rel="noopener noreferrer" class="project-link">
+          GitHub →
+        </a>
+      {/if}
+      <button class="details-btn" onclick={() => openProjectDetail(project)}>
+        View Details
+      </button>
+    </div>
     <div class="project-nav-hint">scroll to explore next project</div>
   </div>
 {/if}
@@ -93,6 +99,14 @@
     border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
+  .hud-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
   .project-link {
     display: inline-block;
     font-size: 0.78rem;
@@ -100,11 +114,29 @@
     color: color-mix(in srgb, var(--accent) 90%, white);
     text-decoration: none;
     letter-spacing: 0.5px;
-    margin-bottom: 0.75rem;
     transition: color 0.2s ease;
   }
 
   .project-link:hover {
+    color: white;
+  }
+
+  .details-btn {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: color-mix(in srgb, var(--accent) 90%, white);
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .details-btn:hover {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
     color: white;
   }
 

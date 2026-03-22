@@ -5,6 +5,7 @@
   import HandCursorVisual from './components/HandCursorVisual.svelte'
   import LoadingScreen from './components/LoadingScreen.svelte'
   import SettingsPanel from './components/SettingsPanel.svelte'
+  import ProjectDetail from './components/ProjectDetail.svelte'
 
   let sceneReady = $state(false)
 
@@ -20,6 +21,7 @@
   <HandCursorVisual />
   <NavigationHUD />
   <SettingsPanel />
+  <ProjectDetail />
 </main>
 
 <style>
