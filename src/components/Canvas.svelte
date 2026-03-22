@@ -130,6 +130,7 @@
           } else {
             // Past last node → go to About
             resetProjectNode()
+            transitionManager.cancelNodeTransition()
             navigateTo(2)
           }
         } else {
@@ -145,6 +146,7 @@
             )
           } else {
             // Before first node → go back to Hero
+            transitionManager.cancelNodeTransition()
             navigateTo(0)
           }
         } else {

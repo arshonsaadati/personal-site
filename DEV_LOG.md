@@ -454,3 +454,17 @@ Build: ✅ `npm run build` — clean, 1.17s
 3. **HeroScene.js** — Hero name z-jitter `±0.5→±4`. Size already at 1.2-1.8 from prior round.
 
 4. **ProjectsScene.js (magenta)** — "THIS PORTFOLIO" accent color dimmed: `r=0.878,g=0.251,b=0.984 → r=0.50,g=0.10,b=0.50`. Magenta has higher perceptual luminance and bloomed harder than other colors.
+
+## 2026-03-21 — Fix: scroll past projects to About (split animation flags)
+
+**Bug:** Scrolling down past the last project node (node 5, "This Portfolio") did not navigate to the About section. `navigateTo(2)` was being silently blocked.
+
+**Root cause:** The `NAV_COOLDOWN` + `canNavigate()` weren't the issue — the real problem was `transitionTo()` checking `_isAnimating` (the section flag) which could be true during rapid transitions, and more critically, no mechanism to interrupt an in-progress node transition before issuing a section change. Similarly, scroll-up from node 0 back to Hero had the same gap.
+
+**Fix:**
+- Renamed `_isAnimating` → `_isSectionAnimating` and `_isNodeTransitioning` → `_isNodeAnimating` in `TransitionManager.js` for clarity and separation of concerns.
+- `transitionTo()` now cancels any in-progress node transition (`_isNodeAnimating = false` + `snapToTargets()`) before starting a section transition.
+- Added `cancelNodeTransition()` method to `TransitionManager` — snaps particles and resets node flag cleanly.
+- `Canvas.svelte`: Both boundary cases (scroll past node 5 → About, scroll before node 0 → Hero) now call `transitionManager.cancelNodeTransition()` before `navigateTo()`.
+
+**Files changed:** `src/lib/three/TransitionManager.js`, `src/components/Canvas.svelte`

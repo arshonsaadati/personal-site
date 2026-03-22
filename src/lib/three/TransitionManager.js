@@ -21,15 +21,15 @@ export class TransitionManager {
     this._targetCameraProgress = 0
     this._cameraAnimStartProgress = 0
 
-    // Section transition timing
+    // Section transition timing (camera movement + particle morph)
     this._transitionStartTime = 0
     this._transitionDuration = 2.0
-    this._isAnimating = false
+    this._isSectionAnimating = false
 
     // Node-only transition (no camera movement)
     this._nodeTransitionStartTime = 0
     this._nodeTransitionDuration = 1.5
-    this._isNodeTransitioning = false
+    this._isNodeAnimating = false
   }
 
   registerSections(sections) {
@@ -38,12 +38,15 @@ export class TransitionManager {
 
   transitionTo(sectionIndex) {
     if (sectionIndex < 0 || sectionIndex >= this.sections.length) return
-    if (this._isAnimating) return
+    if (this._isSectionAnimating) return
 
     const section = this.sections[sectionIndex]
     if (!section) return
 
+    // Cancel any in-progress node transition cleanly
+    this._isNodeAnimating = false
     this.particleSystem.snapToTargets()
+
     this.particleSystem.setTargets(section.getPositions)
     this.particleSystem.transitionProgress = 0
 
@@ -55,10 +58,7 @@ export class TransitionManager {
     navigationState.transitionProgress = 0
 
     this._transitionStartTime = performance.now() / 1000
-    this._isAnimating = true
-
-    // Stop any in-progress node transition
-    this._isNodeTransitioning = false
+    this._isSectionAnimating = true
   }
 
   /**
@@ -68,18 +68,28 @@ export class TransitionManager {
    */
   transitionToNode(getPositionsFn) {
     // Don't interrupt a section transition
-    if (this._isAnimating) return
+    if (this._isSectionAnimating) return
 
     this.particleSystem.snapToTargets()
     this.particleSystem.setTargets(getPositionsFn)
     this.particleSystem.transitionProgress = 0
 
     this._nodeTransitionStartTime = performance.now() / 1000
-    this._isNodeTransitioning = true
+    this._isNodeAnimating = true
+  }
+
+  /**
+   * Forcefully cancel any in-progress node transition.
+   * Snaps particles to their current targets to avoid visual pop.
+   */
+  cancelNodeTransition() {
+    this._isNodeAnimating = false
+    this.particleSystem.snapToTargets()
+    this.particleSystem.transitionProgress = 1.0
   }
 
   update(deltaTime, elapsed) {
-    if (this._isAnimating) {
+    if (this._isSectionAnimating) {
       const timeSinceStart = (performance.now() / 1000) - this._transitionStartTime
       const rawProgress = Math.min(timeSinceStart / this._transitionDuration, 1)
       const easedProgress = easeInOutCubic(rawProgress)
@@ -92,7 +102,7 @@ export class TransitionManager {
       navigationState.transitionProgress = rawProgress
 
       if (rawProgress >= 1) {
-        this._isAnimating = false
+        this._isSectionAnimating = false
         this.particleSystem.snapToTargets()
         this.particleSystem.transitionProgress = 1.0
 
@@ -102,14 +112,14 @@ export class TransitionManager {
       }
     }
 
-    if (this._isNodeTransitioning) {
+    if (this._isNodeAnimating) {
       const t = Math.min(
         (performance.now() / 1000 - this._nodeTransitionStartTime) / this._nodeTransitionDuration,
         1
       )
       this.particleSystem.transitionProgress = t
       if (t >= 1) {
-        this._isNodeTransitioning = false
+        this._isNodeAnimating = false
         this.particleSystem.snapToTargets()
         this.particleSystem.transitionProgress = 1.0
       }
