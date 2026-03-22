@@ -27,9 +27,9 @@
     - This Portfolio: creative coding (https://images.unsplash.com/photo-1550745165-9bc0b252726f)
 
 ### Phase 3 — Hero Enhancements
-- [ ] HERO_BIO: Add a brief tagline line below "SOFTWARE ENGINEER" — styled as particle text or subtle HTML
+- [x] HERO_BIO: Add a brief tagline line below "SOFTWARE ENGINEER" — styled as particle text or subtle HTML
   - Something like: "Building systems that fly, scale, and think."
-- [ ] HERO_LINKS: Subtle GitHub/LinkedIn icon links in hero (bottom-left corner, glass-morphism)
+- [x] HERO_LINKS: Subtle GitHub/LinkedIn icon links in hero (bottom-left corner, glass-morphism)
 
 ### Phase 4 — About Enhancements  
 - [ ] ABOUT_PHOTO: Add a profile photo section (use a placeholder avatar for now — solid colored circle with initials "AS")

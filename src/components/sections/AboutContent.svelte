@@ -95,6 +95,17 @@
 </script>
 
 <div class="about-content">
+  <!-- Profile Section -->
+  <section class="profile-section">
+    <div class="avatar">
+      <span class="avatar-initials">AS</span>
+    </div>
+    <div class="profile-info">
+      <h2 class="profile-name">Arshon Saadati</h2>
+      <p class="profile-bio">Senior software engineer building systems at the intersection of hardware and software — from fly-by-wire aviation to AI-powered products. Currently at <span class="highlight">Skyryse</span> in Los Angeles.</p>
+    </div>
+  </section>
+
   <!-- Skills Section -->
   <section class="skills-section">
     <h3 class="subsection-title">Skills</h3>
@@ -144,6 +155,41 @@
           </div>
         </div>
       {/each}
+    </div>
+  </section>
+
+  <!-- Outside of Work -->
+  <section class="outside-section">
+    <h3 class="subsection-title">Outside of Work</h3>
+    <div class="interests-grid">
+      <div class="interest-card">
+        <span class="interest-icon">🏔️</span>
+        <div>
+          <div class="interest-name">Snowboarding</div>
+          <div class="interest-desc">Mountain days, fresh powder</div>
+        </div>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">🧗</span>
+        <div>
+          <div class="interest-name">Climbing</div>
+          <div class="interest-desc">Bouldering & sport climbing</div>
+        </div>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">🏊</span>
+        <div>
+          <div class="interest-name">Swimming</div>
+          <div class="interest-desc">Former competitive swimmer — 50 free, 100 breast</div>
+        </div>
+      </div>
+      <div class="interest-card">
+        <span class="interest-icon">🇯🇵</span>
+        <div>
+          <div class="interest-name">Japan</div>
+          <div class="interest-desc">Language, culture, long-term dream: rural Japan by 29</div>
+        </div>
+      </div>
     </div>
   </section>
 </div>
@@ -368,6 +414,111 @@
 
     .timeline-entry {
       gap: 12px;
+    }
+  }
+
+  /* Profile Section */
+  .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 8px;
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00e5ff22, #7c4dff44);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .avatar-initials {
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .profile-info {
+    flex: 1;
+  }
+
+  .profile-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px 0;
+    color: white;
+  }
+
+  .profile-bio {
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0;
+  }
+
+  .profile-bio .highlight {
+    color: #00e5ff;
+    font-weight: 400;
+  }
+
+  /* Outside of Work */
+  .outside-section {
+    padding-bottom: 32px;
+  }
+
+  .interests-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .interest-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+
+  .interest-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .interest-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.82);
+    margin-bottom: 3px;
+  }
+
+  .interest-desc {
+    font-size: 0.75rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 640px) {
+    .profile-section {
+      flex-direction: column;
+      text-align: center;
+      gap: 16px;
+    }
+    .interests-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>
