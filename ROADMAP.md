@@ -8,10 +8,10 @@
 ## Queue (agents work top to bottom)
 
 ### Phase 1 — Navigation fix (in flight)
-- [~] Fix scroll past projects → about (split _isAnimating flags)
+- [x] Fix scroll past projects → about (split _isAnimating flags)
 
 ### Phase 2 — Project Detail Pages
-- [ ] PROJECT_DETAIL: Clicking a project node opens a full-screen detail overlay
+- [x] PROJECT_DETAIL: Clicking a project node opens a full-screen detail overlay
   - Full-width hero image (Unsplash stock, relevant to tech/domain)
   - Longer description with key achievements/metrics
   - Tech stack with icons (devicons CDN)
