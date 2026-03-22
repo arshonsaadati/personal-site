@@ -32,8 +32,8 @@
 - [x] HERO_LINKS: Subtle GitHub/LinkedIn icon links in hero (bottom-left corner, glass-morphism)
 
 ### Phase 4 — About Enhancements  
-- [ ] ABOUT_PHOTO: Add a profile photo section (use a placeholder avatar for now — solid colored circle with initials "AS")
-- [ ] ABOUT_INTERESTS: Add a brief "Outside of work" section — snowboarding, climbing, Japan
+- [x] ABOUT_PHOTO: Add a profile photo section (use a placeholder avatar for now — solid colored circle with initials "AS")
+- [x] ABOUT_INTERESTS: Add a brief "Outside of work" section — snowboarding, climbing, Japan
 
 ### Phase 5 — Contact Enhancements
 - [ ] CONTACT_RESUME: Add a "Download Resume" button (links to a placeholder PDF for now)

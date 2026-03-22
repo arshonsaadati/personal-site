@@ -1,6 +1,7 @@
 <script>
   /**
    * ContactContent — glowing contact links with magenta/pink palette.
+   * Includes "Open to opportunities" badge and Download Resume button.
    */
   const links = [
     {
@@ -22,6 +23,12 @@
 </script>
 
 <div class="contact-content">
+  <!-- Availability badge -->
+  <div class="availability-badge">
+    <span class="badge-dot"></span>
+    <span class="badge-text">Open to opportunities</span>
+  </div>
+
   <p class="section-subtitle">Let's build something together</p>
 
   <div class="contact-links">
@@ -50,6 +57,19 @@
         <span class="link-label">{link.label}</span>
       </a>
     {/each}
+
+    <!-- Resume download -->
+    <a
+      href="/resume.pdf"
+      download="Arshon_Saadati_Resume.pdf"
+      class="contact-pill resume-btn"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22" class="link-icon">
+        <path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2" stroke-linecap="round"/>
+      </svg>
+      <span class="link-label">Download Resume</span>
+    </a>
   </div>
 </div>
 
@@ -63,9 +83,48 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 48px;
+    gap: 32px;
     position: relative;
     z-index: 20;
+  }
+
+  /* Availability badge */
+  .availability-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(0, 229, 77, 0.08);
+    border: 1px solid rgba(0, 229, 77, 0.25);
+    animation: badgePulse 3s ease-in-out infinite;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #00e54d;
+    box-shadow: 0 0 8px rgba(0, 229, 77, 0.6);
+    animation: dotBlink 1.5s ease-in-out infinite;
+  }
+
+  .badge-text {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(0, 229, 77, 0.9);
+  }
+
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 rgba(0, 229, 77, 0); }
+    50% { box-shadow: 0 0 16px rgba(0, 229, 77, 0.1); }
+  }
+
+  @keyframes dotBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 
   .section-subtitle {
@@ -110,6 +169,19 @@
     color: #fff;
   }
 
+  /* Resume button — slightly different accent */
+  .resume-btn {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    margin-top: 4px;
+  }
+
+  .resume-btn:hover {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+
   .link-icon {
     flex-shrink: 0;
     color: var(--contact-primary);
@@ -130,7 +202,7 @@
   @media (max-width: 640px) {
     .contact-content {
       padding: 24px 16px;
-      gap: 36px;
+      gap: 28px;
     }
 
     .contact-pill {
