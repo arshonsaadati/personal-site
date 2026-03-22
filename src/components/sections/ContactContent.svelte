@@ -1,7 +1,7 @@
 <script>
   /**
    * ContactContent — glowing contact links with magenta/pink palette.
-   * Includes "Open to opportunities" badge and Download Resume button.
+   * Includes "Open to opportunities" badge and View Resume button.
    */
   const links = [
     {
@@ -60,15 +60,15 @@
 
     <!-- Resume download -->
     <a
-      href="/resume.pdf"
-      download="Arshon_Saadati_Resume.pdf"
+      href="/resume.html"
+      
       class="contact-pill resume-btn"
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="22" height="22" class="link-icon">
         <path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M3 17v2a2 2 0 002 2h14a2 2 0 002-2v-2" stroke-linecap="round"/>
       </svg>
-      <span class="link-label">Download Resume</span>
+      <span class="link-label">View Resume</span>
     </a>
   </div>
 </div>

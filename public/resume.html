@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arshon Saadati — Resume</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --accent: #00e5ff;
+      --text: #111;
+      --muted: #555;
+      --border: #ddd;
+      --page: 8.5in;
+    }
+    body {
+      font-family: 'Georgia', serif;
+      font-size: 10.5pt;
+      color: var(--text);
+      background: #f5f5f5;
+      padding: 0.5in 0;
+    }
+    .page {
+      max-width: var(--page);
+      margin: 0 auto;
+      background: white;
+      padding: 0.6in 0.7in;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.12);
+    }
+    /* Header */
+    .header { border-bottom: 2px solid #111; padding-bottom: 0.3in; margin-bottom: 0.3in; }
+    .header h1 { font-size: 24pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    .header .subtitle { font-size: 11pt; color: var(--muted); margin-top: 3px; font-style: italic; }
+    .contact-links { margin-top: 0.12in; display: flex; gap: 1.2rem; flex-wrap: wrap; font-size: 9.5pt; color: var(--muted); }
+    .contact-links a { color: var(--muted); text-decoration: none; }
+    .contact-links a:hover { color: #000; }
+    /* Sections */
+    .section { margin-bottom: 0.25in; }
+    .section-title {
+      font-size: 9pt; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+      color: #333; border-bottom: 1px solid var(--border); padding-bottom: 3px; margin-bottom: 0.15in;
+    }
+    /* Experience */
+    .job { margin-bottom: 0.2in; }
+    .job-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .job-title { font-weight: 700; font-size: 11pt; }
+    .job-company { font-weight: 400; font-style: italic; font-size: 10.5pt; }
+    .job-dates { font-size: 9.5pt; color: var(--muted); white-space: nowrap; }
+    .job-location { font-size: 9pt; color: var(--muted); margin-top: 1px; margin-bottom: 6px; }
+    .job ul { padding-left: 1.1em; }
+    .job li { margin-bottom: 3px; line-height: 1.45; font-size: 10pt; }
+    /* Skills */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.1in 0.2in; }
+    .skill-group { }
+    .skill-label { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 3px; }
+    .skill-list { font-size: 10pt; line-height: 1.5; }
+    /* Education */
+    .edu-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .edu-school { font-weight: 700; font-size: 11pt; }
+    .edu-dates { font-size: 9.5pt; color: var(--muted); }
+    .edu-degree { font-style: italic; font-size: 10.5pt; margin-top: 2px; }
+
+    @media print {
+      body { background: white; padding: 0; }
+      .page { box-shadow: none; padding: 0.5in 0.6in; max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <h1>Arshon Saadati</h1>
+    <div class="subtitle">Senior Software Engineer — Systems, Rust, Distributed Infrastructure</div>
+    <div class="contact-links">
+      <span>📧 <a href="mailto:arshon@example.com">arshon@example.com</a></span>
+      <span>🔗 <a href="https://linkedin.com/in/arshonsaadati" target="_blank">linkedin.com/in/arshonsaadati</a></span>
+      <span>💻 <a href="https://github.com/arshonsaadati" target="_blank">github.com/arshonsaadati</a></span>
+      <span>📍 Los Angeles, CA</span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="section">
+    <div class="section-title">Experience</div>
+
+    <div class="job">
+      <div class="job-header">
+        <div><span class="job-title">Senior Software Engineer</span> · <span class="job-company">Skyryse</span></div>
+        <div class="job-dates">2023 – Present</div>
+      </div>
+      <div class="job-location">El Segundo, CA</div>
+      <ul>
+        <li>Built ground station software for the first FAA-conforming optionally piloted fly-by-wire helicopter in Rust.</li>
+        <li>Achieved sub-12ms p99 control latency over LoS/5G redundant RF links with a lock-free ring buffer architecture.</li>
+        <li>Designed 40 Hz telemetry fan-out system with Redis-backed broadcast serving multiple concurrent operator displays.</li>
+        <li>Wrote hardware-in-the-loop FCC simulator enabling full integration tests without physical hardware — deterministic 100 Hz loop with p99 jitter &lt;0.5ms.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div><span class="job-title">Software Development Engineer</span> · <span class="job-company">Amazon (SCOT)</span></div>
+        <div class="job-dates">2022 – 2023</div>
+      </div>
+      <div class="job-location">Seattle, WA</div>
+      <ul>
+        <li>Migrated ML model backtesting from fixed-cluster Spark to AWS EMR Serverless, achieving a 600% increase in data granularity.</li>
+        <li>Built a React/TypeScript dashboard for visualizing backtest results and model performance metrics used by 30+ scientists.</li>
+        <li>Designed multi-stage ETL orchestration pipeline with DynamoDB checkpointing for fault tolerance and incremental reprocessing.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div><span class="job-title">Software Development Engineer Intern</span> · <span class="job-company">Amazon</span></div>
+        <div class="job-dates">Summer 2020, Summer 2021</div>
+      </div>
+      <div class="job-location">Seattle, WA (Remote)</div>
+      <ul>
+        <li>Delivered two internship projects in supply chain and developer tooling teams; both shipped to production.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu-header">
+      <div class="edu-school">University of Michigan</div>
+      <div class="edu-dates">2017 – 2021</div>
+    </div>
+    <div class="edu-degree">B.S.E. Computer Science · Minor in Mathematics</div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-label">Languages</div>
+        <div class="skill-list">Rust, C/C++, Python, TypeScript, Swift, SQL</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-label">Systems & Infra</div>
+        <div class="skill-list">AWS, EMR Serverless, Redis, DynamoDB, InfluxDB, Linux, RTOS</div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-label">Web & Tooling</div>
+        <div class="skill-list">React, Node.js, Svelte, Three.js, GLSL, Vite, Git</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="section-title">Selected Projects</div>
+
+    <div class="job">
+      <div class="job-header">
+        <div><span class="job-title">Yolked AI</span></div>
+      </div>
+      <div class="job-location" style="margin-bottom:4px;">AI-powered fitness coaching platform · iOS + Web</div>
+      <ul>
+        <li>Built GPT-4-powered personalized workout and nutrition plan generator with native iOS app (SwiftUI) and Node.js backend.</li>
+        <li>AWS Amplify for auth and data sync; Redis for session management; launched to 200+ beta users.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div><span class="job-title">Build-a-Fair</span></div>
+      </div>
+      <div class="job-location" style="margin-bottom:4px;">Virtual job fair platform · Funded by optiMize Innovation Challenge</div>
+      <ul>
+        <li>Real-time chat via WebSocket APIs, live video session hosting, and Firebase-backed async Q&A.</li>
+        <li>Deployed for 3 University of Michigan career fairs during COVID-era remote recruiting pivot.</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div><span class="job-title">This Portfolio</span></div>
+        <div class="job-dates"><a href="https://github.com/arshonsaadati" target="_blank">github.com/arshonsaadati</a></div>
+      </div>
+      <div class="job-location" style="margin-bottom:4px;">Svelte 5 + Three.js immersive 3D portfolio</div>
+      <ul>
+        <li>80K-particle GLSL morphing system, custom particle text renderer, spline camera paths, MediaPipe gesture navigation.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

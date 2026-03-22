@@ -20,7 +20,7 @@ const CY = 5
 const CZ = -30
 
 // Text is centered at scene origin (x=0, matching lookAt)
-const TEXT_CX = 8
+const TEXT_CX = 15
 const TEXT_CY = 5  // camera lookAt y
 const TEXT_CZ = -30
 
@@ -29,10 +29,10 @@ let saadatiPositions = null
 
 function ensureTextSampled() {
   if (!arshonPositions) {
-    arshonPositions = sampleTextPositions('ARSHON', 130, 1200, 40)
+    arshonPositions = sampleTextPositions("ARSHON", 130, 3000, 40)
   }
   if (!saadatiPositions) {
-    saadatiPositions = sampleTextPositions('SAADATI', 110, 800, 44)
+    saadatiPositions = sampleTextPositions('SAADATI', 110, 2000, 44)
   }
 }
 
@@ -112,8 +112,8 @@ export function getPositions(i, total) {
       x: TEXT_CX + pos.x,
       y: TEXT_CY + 3 + pos.y,  // y=8 offset from lookAt y=5
       z: TEXT_CZ + (Math.random() - 0.5) * 0.8,
-      r: 0.07 + Math.random() * 0.03,   // gold r: watermark ~10%
-      g: 0.055 + Math.random() * 0.025,   // gold g: watermark ~10%
+      r: 0.10 + Math.random() * 0.05,   // gold r: watermark ~15%
+      g: 0.075 + Math.random() * 0.04,   // gold g: watermark ~15%
       b: 0.01 + Math.random() * 0.01,   // gold b: watermark ~10%
       size: randomRange(0.5, 0.8),
     }
@@ -140,8 +140,8 @@ export function getPositions(i, total) {
       x: TEXT_CX + pos.x,
       y: TEXT_CY - 7 + pos.y,  // y=-2 offset
       z: TEXT_CZ + (Math.random() - 0.5) * 0.8,
-      r: 0.06 + Math.random() * 0.02,   // amber r: watermark ~10%
-      g: 0.04 + Math.random() * 0.02,   // amber g: watermark ~10%
+      r: 0.09 + Math.random() * 0.04,   // amber r: watermark ~15%
+      g: 0.06 + Math.random() * 0.03,   // amber g: watermark ~15%
       b: Math.random() * 0.01,   // amber b: ~0.0 watermark
       size: randomRange(0.4, 0.7),
     }

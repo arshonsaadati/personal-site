@@ -38,7 +38,8 @@ const titleSamples = new Array(6).fill(null)
 function ensureSample(nodeIndex) {
   if (titleSamples[nodeIndex]) return titleSamples[nodeIndex]
   // Use fontSize 100 for all titles; longer titles compress but fill same world width
-  titleSamples[nodeIndex] = sampleTextPositions(PROJECT_TITLES[nodeIndex], 100, 10000)
+  const count = nodeIndex === 5 ? 8000 : 10000
+  titleSamples[nodeIndex] = sampleTextPositions(PROJECT_TITLES[nodeIndex], 100, count)
   return titleSamples[nodeIndex]
 }
 
@@ -84,7 +85,7 @@ export function getProjectNodePositions(nodeIndex) {
       return {
         x: pos.x,
         y: pos.y + 5,                           // center text at y=5
-        z: randomRange(-5, 5),                  // deep z-spread → cloud-like bloom
+        z: randomRange(-(idx === 5 ? 6 : 5), (idx === 5 ? 6 : 5)),  // deep z-spread → cloud-like bloom
         r: cr, g: cg, b: cb,
         size: randomRange(1.2, 1.8),
       }

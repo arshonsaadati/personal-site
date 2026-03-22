@@ -22,6 +22,7 @@
       {/each}
     </div>
     <div class="project-detail">
+      <p class="project-category">{project.category ?? ""}</p>
       <p class="project-desc">{project.description}</p>
       <div class="tech-tags">
         {#each project.tech as tag}
@@ -99,6 +100,15 @@
 
   .project-detail {
     margin-bottom: 1rem;
+  }
+
+  .project-category {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--accent) 60%, transparent);
+    margin: 0 0 0.4rem 0;
   }
 
   .project-desc {
