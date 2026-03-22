@@ -468,3 +468,39 @@ Build: ✅ `npm run build` — clean, 1.17s
 - `Canvas.svelte`: Both boundary cases (scroll past node 5 → About, scroll before node 0 → Hero) now call `transitionManager.cancelNodeTransition()` before `navigateTo()`.
 
 **Files changed:** `src/lib/three/TransitionManager.js`, `src/components/Canvas.svelte`
+
+---
+
+## 2026-03-21 — Loop Agent Run
+
+**All ROADMAP phases complete.** Implemented in sequence:
+
+### Phase 1 ✅ (already done before run)
+- Navigation fix: scroll past projects → about
+
+### Phase 2 ✅ Project Detail Pages
+- Full-screen overlay with Unsplash hero images per project
+- Key achievements section, rich long descriptions, tech stack
+- "View Details" button in HUD panel, Escape/backdrop to close
+- Smooth scale+fade animation, mobile responsive
+
+### Phase 3 ✅ Hero Enhancements
+- Tagline: "Building systems that fly, scale, and think."
+- Glass-morphism GitHub/LinkedIn icon buttons bottom-left
+
+### Phase 4 ✅ About Enhancements  
+- "AS" avatar circle + name/bio at top of About section
+- "Outside of Work" interest cards: snowboarding, climbing, swimming, Japan
+
+### Phase 5 ✅ Contact Enhancements
+- "Open to opportunities" green pulsing badge
+- "Download Resume" button
+
+### Phase 6 ✅ Polish
+- SEO: proper og:description, og:image, twitter:card, author meta
+- PERF: MediaPipe HandLandmarker now dynamically imported (lazy) — removes from initial bundle
+- MOBILE: ProjectDetail overlay already responsive from Phase 2
+
+**Build: ✅ passes**  
+**Visual validation: ✅ all sections look good**  
+**GitHub: pushed all commits to main**

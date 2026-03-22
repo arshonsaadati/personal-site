@@ -40,9 +40,9 @@
 - [x] CONTACT_AVAILABILITY: Add a subtle "Open to opportunities" status badge
 
 ### Phase 6 — Polish
-- [ ] PERF: Lazy-load MediaPipe/WebGazer (they add ~2MB, shouldn't block initial render)
-- [ ] MOBILE: Test and fix mobile layout for project detail overlay
-- [ ] SEO: Update meta tags with real description and OG image
+- [x] PERF: Lazy-load MediaPipe/WebGazer (they add ~2MB, shouldn't block initial render)
+- [x] MOBILE: Test and fix mobile layout for project detail overlay
+- [x] SEO: Update meta tags with real description and OG image
 
 ## Validator Runs
 Log validator verdicts here:
