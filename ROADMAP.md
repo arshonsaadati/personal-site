@@ -36,8 +36,8 @@
 - [x] ABOUT_INTERESTS: Add a brief "Outside of work" section — snowboarding, climbing, Japan
 
 ### Phase 5 — Contact Enhancements
-- [ ] CONTACT_RESUME: Add a "Download Resume" button (links to a placeholder PDF for now)
-- [ ] CONTACT_AVAILABILITY: Add a subtle "Open to opportunities" status badge
+- [x] CONTACT_RESUME: Add a "Download Resume" button (links to a placeholder PDF for now)
+- [x] CONTACT_AVAILABILITY: Add a subtle "Open to opportunities" status badge
 
 ### Phase 6 — Polish
 - [ ] PERF: Lazy-load MediaPipe/WebGazer (they add ~2MB, shouldn't block initial render)

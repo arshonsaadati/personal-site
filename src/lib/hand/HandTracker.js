@@ -8,7 +8,7 @@
  *   tracker.destroy() // cleanup
  */
 
-import { HandLandmarker, FilesetResolver } from '@mediapipe/tasks-vision'
+// Dynamically imported in init() to avoid blocking initial render
 
 const MODEL_URL = 'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'
 const VISION_WASM_URL = 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm'
@@ -32,6 +32,9 @@ export class HandTracker {
    * @throws {Error} If camera access is denied or model fails to load
    */
   async init() {
+    // Dynamically import MediaPipe to avoid blocking initial page load
+    const { HandLandmarker, FilesetResolver } = await import('@mediapipe/tasks-vision')
+
     // Load MediaPipe vision WASM runtime
     const vision = await FilesetResolver.forVisionTasks(VISION_WASM_URL)
 
