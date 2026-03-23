@@ -27,9 +27,7 @@
   {#if currentSection === 0}
     <HeroContent />
   {:else if currentSection === 1}
-    <div class="scrollable-section">
-      <ProjectsContent />
-    </div>
+    <ProjectsContent />
   {:else if currentSection === 2}
     <div class="scrollable-section">
       <AboutContent />
